@@ -6,6 +6,7 @@ var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var gulp = require('gulp');
 var inject = require('gulp-inject');
+var nunjucks = require('gulp-nunjucks');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream')
 var sourcemaps = require('gulp-sourcemaps');
@@ -36,7 +37,8 @@ gulp.task('sass', function() {
 
 // Copy html
 gulp.task('html', ['js', 'sass'], function() {
-    return gulp.src('src/**/*.html')
+    return gulp.src('src/index.html')
+        .pipe(nunjucks.compile())
         .pipe(inject(gulp.src(['www/**/*.js', 'www/**/*.css'], {read: false}), {ignorePath: 'www'}))
         .pipe(gulp.dest('www/'))
 });
