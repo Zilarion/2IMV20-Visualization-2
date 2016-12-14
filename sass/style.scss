@@ -1,4 +1,53 @@
+@import "grid";
+@import "material-dashboard";
 
-.container {
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 55%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+#timeline {
+	border: 1px solid black;
+}
+
+#worldmap {
 	border: 1px solid black
+}
+
+.country {
+  fill: #000;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+.country:hover {
+  fill: #666;
+}
+.hidden {
+  display: none;
+}
+div.tooltip {
+  color: black;
+  background-color: #ccc;
+  padding: .5em;
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px;
+  opacity: 0.9;
+  position: absolute;
 }
