@@ -5,7 +5,23 @@
 	padding: 0;
 }
 
-#container {
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 55%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#worldmap {
 	border: 1px solid black
 }
 
