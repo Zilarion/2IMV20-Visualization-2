@@ -15,13 +15,10 @@ define(["d3"], function(d3) {
 		  	.attr("viewBox", "0 0 " + this.settings.w + " " + this.settings.h)
 		  	.classed('svg-content-responsive', true)
 
-		  // Add hover tooltip
-			var tooltip = this.container.append('div').attr('class', 'hidden tooltip');
+		  this.update();
+		},
+		update: function() {
 
-      // Load all countries
-	    this.countries = this.svg.selectAll(".countries").data( world.features ).enter()
-
-	    // Todo: append data
 		}
 	}
 });
