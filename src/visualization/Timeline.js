@@ -1,24 +1,48 @@
-define(["d3"], function(d3) {
+define(["d3", "nvd3"], function(d3) {
 	return {
 		initialize: function(data, settings) {
 			// Load data and set settings
-			this.data = data;
+			this.data = [{
+				values:	data,
+				key: "country"
+			}];
 			this.settings = settings;
-			this.container = d3.select(settings.container).classed("svg-container", true);
+			this.container = d3.select(settings.container);
 
 			// Create svg according to settings
 			this.svg = this.container
 				.append("svg")
-				.attr("width", this.settings.w)
-				.attr("height", this.settings.h)
-				.attr("preserveAspectRatio", "xMinYMin meet")
-		  	.attr("viewBox", "0 0 " + this.settings.w + " " + this.settings.h)
-		  	.classed('svg-content-responsive', true)
+				.attr("height", 200)
+				// .attr("preserveAspectRatio", "xMinYMin meet")
+		  // 	.attr("viewBox", "0 0 " + this.settings.w + " " + this.settings.h)
+		  // 	.classed('svg-content-responsive', true)
 
-		  this.update();
+	  	var chart = nv.models.lineChart()
+	  		.margin({left: 100})
+	  		.useInteractiveGuideline(true) 
+        .showLegend(true)   
+	  		.showYAxis(true)
+	  		.showYAxis(true)
+	  		.x(function(d) {
+	  			return d.id;
+	  		})
+	  		.y(function(d) {
+	  			return d.value;
+	  		})
+
+  		chart.xAxis
+  			.axisLabel('Year');
+
+			chart.yAxis
+				.axisLabel('Value');
+
+		  var that = this;
+		  nv.addGraph(function() {
+				nv.utils.windowResize(function() { chart.update() })
+
+				that.svg.datum(that.data).call(chart);
+				return chart;
+		  });
 		},
-		update: function() {
-
-		}
 	}
 });

@@ -42,13 +42,13 @@ define(["d3", 'maps/earth'], function(d3, earth) {
 	      });
 
 	    // Initialize projection
-	    var projection = d3.geoMercator().scale( 250 ).translate( [this.settings.w/2,this.settings.h/2 + 200] );
+	    var projection = d3.geo.mercator().scale( 250 ).translate( [this.settings.w/2,this.settings.h/2 + 200] );
       this.setProjection(projection)
 
       this.update();
 		},
 		setProjection: function(projection) {
-			var geoPath = d3.geoPath().projection(projection);
+			var geoPath = d3.geo.path().projection(projection);
 			this.countries.attr("d", geoPath);
 		},
 		update: function() {

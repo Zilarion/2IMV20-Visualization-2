@@ -4,10 +4,21 @@ requirejs.config({
 
     // Except for:
     paths: {
-			d3: "../node_modules/d3/build/d3",
+			d3: "../node_modules/d3/d3",
+			nvd3: "../node_modules/nvd3/build/nv.d3",
 			// d3.geo: "node_modules/d3-geo/build/d3-geo",
 			jquery: "../node_modules/jquery/dist/jquery",
 			topojson: "../node_modules/topojson/dist/topojson"
+		},
+
+		// These modules don't support AMD, so use shim
+		shim: {
+			'd3': {
+				exports: "d3"
+			},
+			'nvd3': {
+				deps: ['d3']
+			}
 		}
 });
 
@@ -22,14 +33,15 @@ function(map, timeline) {
 	var data = {};
 	map.initialize(data, mapSettings);
 
-	timelineData = [
-	{id: '1990', value: '50'},
-	{id: '2010', value: '10'},
-	{id: '2008', value: '12'},
-	{id: '2006', value: '40'},
-	{id: '2004', value: '19'},
-	{id: '2012', value: '60'},
-
-	]
-	timeline.initialize(timelineData, {});
+  timelineData = [
+  	{id: '1960', 'value': 1523},
+  	{id: '1970', 'value': 623},
+  	{id: '1980', 'value': 2410},
+  	{id: '1990', 'value': 723},
+  	{id: '2000', 'value': 2110},
+  	{id: '2010', 'value': 2123}
+  ];
+	timeline.initialize(timelineData, {
+		container: "div#timeline"
+	});
 });
