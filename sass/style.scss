@@ -1,3 +1,5 @@
+@import "grid";
+
 * {
 	margin: 0;
 	padding: 0;
@@ -5,4 +7,25 @@
 
 #container {
 	border: 1px solid black
+}
+
+.country {
+  fill: #000;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+.country:hover {
+  fill: #666;
+}
+.hidden {
+  display: none;
+}
+div.tooltip {
+  color: black;
+  background-color: #ccc;
+  padding: .5em;
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px;
+  opacity: 0.9;
+  position: absolute;
 }

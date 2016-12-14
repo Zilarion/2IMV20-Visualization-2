@@ -6,10 +6,11 @@ requirejs.config({
 // Start the main app logic.
 requirejs(['visualization/WorldMap'],
 function(map) {
-	console.log(map)
-	map.initialize({
+	var mapSettings = {
 		w: 1920,
 		h: 1080,
 		container: "div#container"
-	});
+	};
+	var data = {};
+	map.initialize(data, mapSettings);
 });
