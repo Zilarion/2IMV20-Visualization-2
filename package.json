@@ -4,28 +4,29 @@
   "description": "Data sources: http://data.worldbank.org/data-catalog/gender-statistics",
   "main": "index.js",
   "dependencies": {
+    "browserify": "^13.1.1",
     "d3": "^3.5.17",
     "datamaps": "^0.5.8",
+    "getmdl-select": "1.0.4",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-inject": "^4.1.0",
+    "gulp-sass": "^3.0.0",
+    "gulp-sass-bulk-import": "^1.0.1",
+    "gulp-sourcemaps": "^1.9.1",
     "jquery": "^3.1.1",
+    "material-design-lite": "^1.2.1",
     "nvd3": "^1.8.5",
     "requirejs": "^2.3.2",
-    "topojson": "^2.2.0"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-sass": "^3.0.0"
+    "topojson": "^2.2.0",
+    "vinyl-source-stream": "1.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "gulp default"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Zilarion/2IMV20-Visualization-2.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Zilarion/2IMV20-Visualization-2/issues"
-  },
-  "homepage": "https://github.com/Zilarion/2IMV20-Visualization-2#readme"
+  }
 }

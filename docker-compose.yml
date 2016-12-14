@@ -11,8 +11,8 @@ services:
   vis:
     build: .
     image: 2imv20/vis
-    command: /bin/bash
     ports:
       - "80:80"
     volumes:
-     - "$PWD:/opt/vis"
+     - "$PWD/src:/opt/vis/src"
+     - "$PWD/gulpfile.js:/opt/vis/gulpfile.js"
