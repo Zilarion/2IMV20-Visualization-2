@@ -1,0 +1,16 @@
+version: '2'
+services:
+  elasticsearch:
+    image: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - "/var/esdata:/usr/share/elasticsearch/data"
+
+  vis:
+    build: .
+    image: 2imv20/vis
+    command: /bin/bash
+    ports:
+      - "80:80"
