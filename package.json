@@ -1,0 +1,28 @@
+{
+  "name": "2imv20-assignment2",
+  "version": "1.0.0",
+  "description": "Data sources: http://data.worldbank.org/data-catalog/gender-statistics",
+  "main": "index.js",
+  "dependencies": {
+    "d3": "^4.4.0",
+    "jquery": "^3.1.1",
+    "requirejs": "^2.3.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zilarion/2IMV20-Visualization-2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zilarion/2IMV20-Visualization-2/issues"
+  },
+  "homepage": "https://github.com/Zilarion/2IMV20-Visualization-2#readme"
+}
