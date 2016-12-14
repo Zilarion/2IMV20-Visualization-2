@@ -5,8 +5,10 @@
   "main": "index.js",
   "dependencies": {
     "d3": "^4.4.0",
+    "datamaps": "^0.5.8",
     "jquery": "^3.1.1",
-    "requirejs": "^2.3.2"
+    "requirejs": "^2.3.2",
+    "topojson": "^2.2.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
