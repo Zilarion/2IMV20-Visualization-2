@@ -1,4 +1,4 @@
-define(function() {
+define(["d3"], function(d3) {
 	return {
 		initialize: function(data, settings) {
 			// Load data and set settings

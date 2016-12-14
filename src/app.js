@@ -1,6 +1,14 @@
 requirejs.config({
     //By default load any module IDs from src folder
-    baseUrl: 'src'
+    baseUrl: 'src',
+
+    // Except for:
+    paths: {
+			d3: "../node_modules/d3/build/d3",
+			// d3.geo: "node_modules/d3-geo/build/d3-geo",
+			jquery: "../node_modules/jquery/dist/jquery",
+			topojson: "../node_modules/topojson/dist/topojson"
+		}
 });
 
 // Start the main app logic.
