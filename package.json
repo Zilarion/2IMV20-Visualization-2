@@ -12,15 +12,16 @@
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-inject": "^4.1.0",
+    "gulp-util": "^3.0.7",
     "gulp-nunjucks": "^2.3.0",
     "gulp-sass": "^3.0.0",
     "gulp-sass-bulk-import": "^1.0.1",
     "gulp-sourcemaps": "^1.9.1",
-    "jquery": "^3.1.1",
     "material-design-lite": "^1.2.1",
     "nvd3": "^1.8.5",
     "topojson": "^2.2.0",
-    "vinyl-source-stream": "1.1.0"
+    "vinyl-source-stream": "1.1.0",
+    "xhr-promise": "^2.0.0"
   },
   "scripts": {
     "install": "gulp default"
@@ -28,8 +29,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Zilarion/2IMV20-Visualization-2.git"
-  },
-  "devDependencies": {
-    "gulp-util": "^3.0.7"
   }
 }

@@ -26,6 +26,7 @@ def insertCountries():
             doc_type='country',
             id=countryCode,
             body={
+                'code': countryCode,
                 'name': country['properties']['name'],
                 'coordinates': country['geometry']['coordinates']
             }
@@ -45,6 +46,7 @@ def insertIndicators():
                 doc_type='indicator',
                 id=indicatorName,
                 body={
+                    'id': indicatorName,
                     'name': indicator['name'],
                     'properties': {property: indicatorData['properties'][property] for property in properties}
                 }

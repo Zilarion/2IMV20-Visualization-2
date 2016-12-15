@@ -5,12 +5,12 @@ var bulkSass = require('gulp-sass-bulk-import');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var inject = require('gulp-inject');
 var nunjucks = require('gulp-nunjucks');
 var sass = require('gulp-sass');
-var source = require('vinyl-source-stream')
+var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
-var gutil = require('gulp-util');
 
 // Remove all build files
 gulp.task('clean', function () {
@@ -25,7 +25,7 @@ gulp.task("js", function () {
             gutil.log(gutil.colors.red('Error: ' + error.message));
         })
         .pipe(source('app.js'))
-        .pipe(gulp.dest('www/'))
+        .pipe(gulp.dest('www/'));
 });
 
 // Compile sass

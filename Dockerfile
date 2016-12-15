@@ -17,9 +17,9 @@ ADD gulpfile.js $WORKDIR/gulpfile.js
 ADD src $WORKDIR/src
 WORKDIR $WORKDIR
 
-ADD nginx.conf /etc/nginx/nginx.conf
-
 RUN npm install --unsafe-perm
+
+ADD nginx.conf /etc/nginx/nginx.conf
 
 CMD /usr/sbin/nginx
 
