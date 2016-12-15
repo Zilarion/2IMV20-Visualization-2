@@ -28,5 +28,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Zilarion/2IMV20-Visualization-2.git"
+  },
+  "devDependencies": {
+    "gulp-util": "^3.0.7"
   }
 }
