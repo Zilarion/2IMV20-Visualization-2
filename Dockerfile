@@ -10,10 +10,10 @@ RUN yum clean all
 
 RUN npm install -g gulp-cli
 
-ARG WORKDIR /opt/vis
+ARG WORKDIR=/opt/vis
 RUN mkdir $WORKDIR
 ADD package.json $WORKDIR/package.json
-ADD gruntfile.js $WORKDIR/gruntfile.js
+ADD gulpfile.js $WORKDIR/gulpfile.js
 ADD src $WORKDIR/src
 WORKDIR $WORKDIR
 
