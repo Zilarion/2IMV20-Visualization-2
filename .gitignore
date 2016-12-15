@@ -1,4 +1,4 @@
-data/
+/setup/data/GenderStat_Data.csv
 node_modules/
 .DS_Store
 www/

@@ -11,8 +11,19 @@ services:
   vis:
     build: .
     image: 2imv20/vis
+    links:
+      - elasticsearch
     ports:
       - "80:80"
     volumes:
-     - "$PWD/src:/opt/vis/src"
-     - "$PWD/gulpfile.js:/opt/vis/gulpfile.js"
+      - "$PWD/src:/opt/vis/src"
+      - "$PWD/gulpfile.js:/opt/vis/gulpfile.js"
+
+  setup:
+    build: ./setup
+    image: 2imv20/vis-setup
+    links:
+      - elasticsearch
+    volumes:
+      - "$PWD/setup/data:/opt/vis/data"
+      - "$PWD/setup/load_data.py:/opt/vis/load_data.py"

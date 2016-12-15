@@ -1,52 +1,89 @@
 import csv
 from elasticsearch import Elasticsearch
+import json
 import yaml
-
-def getIndicators():
-  with open('indicators.yml') as f:
-    categories = yaml.load(f)['indicators']
-    return {id: (key, properties) for category, indicators in categories.items() for key, indicator in indicators.items() for id, properties in indicator['series'].items()}
-
-indicators = getIndicators()
 
 es = Elasticsearch([{'host': 'elasticsearch'}, {'port': 9200}])
 
-with open('data/GenderStat_Data.csv', 'rb') as f:
-  reader = csv.DictReader(f)
+def getCountryData():
+    with open('data/earth.json') as f:
+        return json.load(f)
 
-  firstCountryFound = False
-  for row in reader:
-      countryCode = row['Country Code']
+def getIndicatorData():
+    with open('data/indicators.yml') as f:
+        return yaml.load(f)
 
-      if countryCode == 'AFG':
-        firstCountryFound = True
+def getTimeseriesData():
+    f = open('data/GenderStat_Data.csv', 'rb')
+    return csv.DictReader(f)
 
-      if firstCountryFound:
-        for year in range(1960, 2016):
-          value = row[str(year)];
-          if (value == ''):
-            continue
+def insertCountries():
+    for country in getCountryData()['features']:
+        countryCode = country['id']
 
-          indicatorCode = row['Indicator Code']
+        es.index(
+            index='data',
+            doc_type='country',
+            id=countryCode,
+            body={
+                'name': country['properties']['name'],
+                'coordinates': country['geometry']['coordinates']
+            }
+        )
 
-          if indicatorCode not in indicators:
-            continue
+def insertIndicators():
+    indicatorData = getIndicatorData()
 
-          indicator, properties = indicators[indicatorCode]
+    for categoryName, category in indicatorData['indicators'].items():
+        for indicatorName, indicator in category.items():
+            properties = set()
+            for series in indicator['series'].values():
+                properties.update(series.keys())
 
-          doc = {
-            'country': countryCode,
-            'indicator': indicator,
-            'year': year,
-            'value': float(value)
-          }
+            es.index(
+                index='data',
+                doc_type='indicator',
+                id=indicatorName,
+                body={
+                    'name': indicator['name'],
+                    'properties': {property: indicatorData['properties'][property] for property in properties}
+                }
+            )
 
-          for property, propertyValue in properties.items():
-            doc[property] = propertyValue
+def insertTimeSeries():
+    categories = getIndicatorData()['indicators']
+    indicators = {id: (key, properties) for category, indicators in categories.items() for key, indicator in indicators.items() for id, properties in indicator['series'].items()}
 
-          es.index(
-            index="data",
-            doc_type='value',
-            id='-'.join((countryCode, indicatorCode, str(year))),
-            body=doc
-          )
+    firstCountryFound = False
+    for row in getTimeseriesData():
+        countryCode = row['Country Code']
+
+        if countryCode == 'AFG':
+            firstCountryFound = True
+
+        if firstCountryFound:
+            indicatorCode = row['Indicator Code']
+            if indicatorCode not in indicators:
+                continue
+            indicator, properties = indicators[indicatorCode]
+
+            doc = {
+                'countryCode': countryCode,
+                'indicator': indicator,
+                'values': {year: float(row[str(year)]) for year in range(1960, 2016) if row[str(year)] != ''}
+            }
+
+            for property, propertyValue in properties.items():
+                doc[property] = propertyValue
+
+            es.index(
+                index='data',
+                doc_type='timeSeries',
+                id='.'.join((countryCode, indicatorCode)),
+                body=doc
+            )
+
+if not es.indices.exists('data'):
+    insertCountries()
+    insertIndicators()
+    insertTimeSeries()
