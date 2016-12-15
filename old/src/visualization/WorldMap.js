@@ -25,9 +25,7 @@ define(["d3", 'maps/earth'], function(d3, earth) {
       // Append the path to the country data
 	    var that = this;
       this.countries = this.countries.append('path')
-        .attr('class', function(d) {
-            return 'country ' + d.id;
-        })
+        .attr('class', 'country')
 	      .on('mousemove', function(d) {
 	      	// Once we enter a country, update the tooltip
           var mouse = d3.mouse(that.container.node());

@@ -13,8 +13,7 @@ class WorldMap {
         this.svg = this.container
             .append('svg')
             .attr('preserveAspectRatio', 'xMinYMin meet')
-            .attr('viewBox', '0 0 1920 1080')
-            .classed('svg-content-responsive', true);
+            .attr('viewBox', '0 0 1920 1080');
 
         this.tooltip = this.container
             .append('div')
@@ -32,7 +31,7 @@ class WorldMap {
             })
             .on('mousemove', (d) => {
                 // Once we enter a country, update the tooltip
-                var mouse = d3.mouse(that.container.node());
+                var mouse = d3.mouse(this.container.node());
 
                 this.tooltip
                     .classed('hidden', false)
