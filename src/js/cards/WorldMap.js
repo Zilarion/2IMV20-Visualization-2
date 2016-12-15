@@ -35,7 +35,7 @@ class WorldMap {
 
                 this.tooltip
                     .classed('hidden', false)
-                    .attr('style', 'left:' + (mouse[0] + 15) + 'px;' + 'top:'  + (mouse[1] - 35) + 'px')
+                    .attr('style', 'left:' + (mouse[0]) + 'px;' + 'top:'  + (mouse[1] + 20) + 'px')
                     .html(d.properties.name);
             })
             .on('mouseout', () => {

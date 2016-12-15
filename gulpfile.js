@@ -10,6 +10,7 @@ var nunjucks = require('gulp-nunjucks');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream')
 var sourcemaps = require('gulp-sourcemaps');
+var gutil = require('gulp-util');
 
 // Remove all build files
 gulp.task('clean', function () {
@@ -20,8 +21,11 @@ gulp.task('clean', function () {
 // Compile js
 gulp.task("js", function () {
     return browserify('src/js/app.js').bundle()
+        .on('error', function(error) {
+            gutil.log(gutil.colors.red('Error: ' + error.message));
+        })
         .pipe(source('app.js'))
-        .pipe(gulp.dest('www/'));
+        .pipe(gulp.dest('www/'))
 });
 
 // Compile sass
@@ -49,6 +53,12 @@ gulp.task('images', ['js', 'sass'], function() {
         .pipe(gulp.dest('www/img/'))
 });
 
-gulp.task('build', ['js', 'sass', 'html', 'images'], function() {});
+gulp.task('build', ['js', 'sass', 'html', 'images'], function() {
+    gutil.log(gutil.colors.green('Done running build'))
+});
 
 gulp.task('default', ['clean', 'build'], function() {});
+
+gulp.task('watch', function() {
+    gulp.watch('src/**/*.*', ['build']);
+});
