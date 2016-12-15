@@ -35,7 +35,7 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('www/'))
 });
 
-// Copy html
+// Render html
 gulp.task('html', ['js', 'sass'], function() {
     return gulp.src('src/index.html')
         .pipe(nunjucks.compile())
@@ -43,6 +43,12 @@ gulp.task('html', ['js', 'sass'], function() {
         .pipe(gulp.dest('www/'))
 });
 
-gulp.task('build', ['js', 'sass', 'html'], function() {});
+// Copy images
+gulp.task('images', ['js', 'sass'], function() {
+    return gulp.src('src/img/**/*')
+        .pipe(gulp.dest('www/img/'))
+});
+
+gulp.task('build', ['js', 'sass', 'html', 'images'], function() {});
 
 gulp.task('default', ['clean', 'build'], function() {});
