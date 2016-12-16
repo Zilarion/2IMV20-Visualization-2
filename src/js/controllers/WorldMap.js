@@ -29,13 +29,13 @@ class WorldMap extends Controller {
             .select('svg')
             .selectAll('.countries');
 
-        elements.data(this.data.toArray(), country => country.code);
+        var data = elements.data(this.data.asArray().map(country => Object.assign(country, {type: 'MultiPolygon'})), country => country.code);
 
-        elements
+        data
             .exit()
             .remove();
 
-        elements
+        data
             .enter()
             .append('path')
             .attr('class', (country) => country.countryCode)
@@ -56,8 +56,8 @@ class WorldMap extends Controller {
                 this.tooltip.classed('hidden', true);
             });
 
-        this.countries
-            .attr('d', geoPath);
+        data
+            .attr('d', this.geoPath);
     }
 }
 

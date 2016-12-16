@@ -7,9 +7,9 @@ class Controller {
 
         this.init();
 
-        data.on('change', () => this.render());
+        data.on('change', () => this.update());
 
-        this.update();
+        this.init();
     }
 
     init() {}

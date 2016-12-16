@@ -9,6 +9,7 @@ class CountriesCollection extends Collection {
         super(settings);
 
         this.metric = null;
+        this.properties = null;
         this.data = null;
     }
 
@@ -29,7 +30,7 @@ class CountriesCollection extends Collection {
             .getAll()
             .then(countries => {
                 this.models = {};
-                countries.forEach((country) => {
+                countries.forEach(country => {
                     country.value = null;
                     this.models[country.id] = country;
                 });
@@ -38,12 +39,16 @@ class CountriesCollection extends Collection {
 
     loadMetrics() {
         var metric = this.settings.metric;
+        var properties = {};
+        Object.keys(this.settings.properties).forEach(property => {
+            properties[property] = this.settings.properties[property]
+        });
 
-        var promise = (metric === this.metric) ?
+        var promise = ((metric === this.metric) && Object.keys(properties).every(property => properties[property] == this.properties[property])) ?
             Promise.resolve(this.data) :
-            TimeSeries.getAllByMetric(settings.metric);
+            TimeSeries.getAllByIndicator(metric, properties);
 
-        return promise.then((data) => {
+        return promise.then(data => {
             this.metric = metric;
             this.data = data;
 

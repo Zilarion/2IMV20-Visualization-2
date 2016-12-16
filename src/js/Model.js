@@ -6,11 +6,15 @@ class Model extends EventEmitter {
     static create(properties) {
         return new Proxy(new Model(properties), {
             get(model, property) {
-                return model.get(property);
+                if (model.hasOwnProperty(property)) {
+                    return model[property];
+                }
+                return model.get(property) || Model.prototype[property];
             },
 
             set(model, property, value) {
-                return model.set(property, value);
+                model.set(property, value);
+                return true;
             },
 
             has(model, property) {
@@ -21,7 +25,7 @@ class Model extends EventEmitter {
                 return model.ownKeys();
             },
 
-            getPrototypeOf(model) {
+            getPrototypeOf() {
                 return Model.prototype;
             }
         });
@@ -29,26 +33,26 @@ class Model extends EventEmitter {
 
     constructor(properties) {
         super();
-        
-        this.properties = properties;
+
+        this._properties = properties;
     }
 
     get(property) {
-        return this.properties[property];
+        return this._properties[property];
     }
 
     set(property, value) {
-        this.properties[property] = value;
+        this._properties[property] = value;
 
         this.emit('change');
     }
 
     has(property) {
-        return Object.hasOwnProperty(this.properties, property);
+        return Object.hasOwnProperty(this._properties, property);
     }
 
     ownKeys() {
-        return Object.keys(this.properties);
+        return Object.keys(this._properties);
     }
 }
 

@@ -22,11 +22,11 @@ class FilterService {
 
         var properties = this.indicators.get(metric).properties;
         var propertyValues = {};
-        properties.forEach((property) => {
+        Object.keys(properties).forEach((property) => {
             propertyValues[property] = properties[property].defaultValue;
-        })
+        });
 
-        this.filter.properties = Model.create();
+        this.filter.properties = Model.create(propertyValues);
         this.filter.properties.on('change', () => {
             this.filter.emit('change');
         });

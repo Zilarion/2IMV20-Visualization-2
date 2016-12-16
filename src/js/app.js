@@ -3,6 +3,7 @@
 require('material-design-lite');
 require('../../node_modules/getmdl-select/src/js/getmdl-select');
 
+var CountriesCollection = require('./collections/CountriesCollection');
 var d3 = require('d3');
 var FilterService = require('./services/FilterService');
 var Model = require('./Model');

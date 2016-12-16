@@ -9,7 +9,7 @@ class IndicatorsCollection extends Collection {
             .then((indicators) => {
                 this.models = {};
                 indicators.forEach((indicator) => {
-                    this.models[indicator.id] = indicator
+                    this.models[indicator.metric] = indicator
                 });
             });
     }

@@ -22,7 +22,7 @@ class Collection extends EventEmitter {
         this
             .loadData()
             .then(() => {
-                emit('change');
+                this.emit('change');
             });
     }
 

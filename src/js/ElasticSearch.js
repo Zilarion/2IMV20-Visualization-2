@@ -17,7 +17,9 @@ class ElasticSearch {
                     throw new Error('Request failed');
                 }
 
-                return JSON.parse(xhrPromise.getXHR().responseText).hits.hits.map(hit => hit.source);
+                return response.responseText.hits.hits.map(hit => hit._source);
             })
     }
 }
+
+module.exports = ElasticSearch;

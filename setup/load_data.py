@@ -28,7 +28,7 @@ def insertCountries():
             body={
                 'code': countryCode,
                 'name': country['properties']['name'],
-                'coordinates': country['geometry']['coordinates']
+                'coordinates': country['geometry']['coordinates'] if type == 'MultiPolygon' else [country['geometry']['coordinates']]
             }
         )
 
@@ -46,7 +46,7 @@ def insertIndicators():
                 doc_type='indicator',
                 id=indicatorName,
                 body={
-                    'id': indicatorName,
+                    'metric': indicatorName,
                     'name': indicator['name'],
                     'properties': {property: indicatorData['properties'][property] for property in properties}
                 }
@@ -67,11 +67,11 @@ def insertTimeSeries():
             indicatorCode = row['Indicator Code']
             if indicatorCode not in indicators:
                 continue
-            indicator, properties = indicators[indicatorCode]
+            metric, properties = indicators[indicatorCode]
 
             doc = {
                 'countryCode': countryCode,
-                'indicator': indicator,
+                'metric': metric,
                 'values': {year: float(row[str(year)]) for year in range(1960, 2016) if row[str(year)] != ''}
             }
 
