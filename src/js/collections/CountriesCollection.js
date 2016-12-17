@@ -5,20 +5,23 @@ var Countries = require('../dao/Countries');
 var TimeSeries = require('../dao/TimeSeries');
 
 class CountriesCollection extends Collection {
-    constructor(settings) {
-        super(settings);
+    constructor(indicator, time) {
+        super(indicator);
 
-        this.metric = null;
-        this.properties = null;
+        this.time = time;
+        this.time.on('change', () => {
+            this.updateValues()
+                .then(() => this.emit('change'));
+        });
+
         this.data = null;
     }
 
     loadData() {
         return this
             .loadCountries()
-            .then(() => {
-                this.loadMetrics();
-            });
+            .then(() => this.loadMetric())
+            .then(() => this.updateValues());
     }
 
     loadCountries() {
@@ -37,26 +40,18 @@ class CountriesCollection extends Collection {
             });
     }
 
-    loadMetrics() {
-        var metric = this.settings.metric;
-        var properties = {};
-        Object.keys(this.settings.properties).forEach(property => {
-            properties[property] = this.settings.properties[property]
-        });
-
-        var promise = ((metric === this.metric) && Object.keys(properties).every(property => properties[property] == this.properties[property])) ?
-            Promise.resolve(this.data) :
-            TimeSeries.getAllByIndicator(metric, properties);
-
-        return promise.then(data => {
-            this.metric = metric;
-            this.data = data;
-
-            this.data.forEach(timeSeries => {
-                if ((timeSeries.countryCode in this.models) && (this.settings.year in timeSeries)) {
-                    this.models[timeSeries.countryCode].value = timeSeries[this.settings.year];
-                }
+    loadMetric() {
+        return TimeSeries.getAllByIndicator(this.settings.metric, this.settings.properties)
+            .then((data) => {
+                this.data = data;
             });
+    }
+
+    updateValues() {
+        this.data.forEach(timeSeries => {
+            if ((timeSeries.countryCode in this.models) && (this.time.year in timeSeries)) {
+                this.models[timeSeries.countryCode].value = timeSeries[this.time.year];
+            }
         });
     }
 }

@@ -4,6 +4,14 @@ var XHRPromise = require('xhr-promise');
 
 class ElasticSearch {
     static query(q) {
+        return this
+            .queryAll(q)
+            .then((results) => {
+                return results[0];
+            });
+    }
+
+    static queryAll(q) {
         var xhrPromise = new XHRPromise();
 
         return xhrPromise

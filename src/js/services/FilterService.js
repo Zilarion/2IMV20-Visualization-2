@@ -5,8 +5,7 @@ var Model = require('../Model');
 
 class FilterService {
     constructor() {
-        this.filter = Model.create({
-            year: 2016,
+        this.indicator = Model.create({
             metric: null,
             properties: {}
         });
@@ -18,7 +17,7 @@ class FilterService {
     }
 
     setMetric(metric) {
-        this.filter.metric = metric;
+        this.indicator.metric = metric;
 
         var properties = this.indicators.get(metric).properties;
         var propertyValues = {};
@@ -26,9 +25,9 @@ class FilterService {
             propertyValues[property] = properties[property].defaultValue;
         });
 
-        this.filter.properties = Model.create(propertyValues);
-        this.filter.properties.on('change', () => {
-            this.filter.emit('change');
+        this.indicator.properties = Model.create(propertyValues);
+        this.indicator.properties.on('change', () => {
+            this.indicator.emit('change');
         });
     }
 }

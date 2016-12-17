@@ -4,7 +4,7 @@ var es = require('../ElasticSearch');
 
 class Indicators {
     static getAll() {
-        return es.query({
+        return es.queryAll({
             query: {
                 bool: {
                     filter: {

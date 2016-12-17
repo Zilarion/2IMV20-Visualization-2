@@ -5,8 +5,7 @@ var d3 = require('d3');
 
 class WorldMap extends Controller {
     init() {
-
-        this.container
+        this.svg = this.container
             .append('svg')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('viewBox', '0 0 1920 1080');
@@ -26,8 +25,7 @@ class WorldMap extends Controller {
     }
 
     update() {
-        var elements = this.container
-            .select('svg')
+        var elements = this.svg
             .selectAll('.countries');
 
         var data = elements.data(this.data.asArray());
