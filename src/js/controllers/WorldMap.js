@@ -5,9 +5,10 @@ var d3 = require('d3');
 
 class WorldMap extends Controller {
     init() {
+
         this.container
             .append('svg')
-            .attr('preserveAspectRatio', 'xMinYMin meet')
+            .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('viewBox', '0 0 1920 1080');
 
         this.tooltip = this.container
@@ -21,7 +22,7 @@ class WorldMap extends Controller {
 
         this.geoPath = d3.geo
             .path()
-            .projection(this.projection);
+            .projection(projection);
     }
 
     update() {
@@ -29,7 +30,7 @@ class WorldMap extends Controller {
             .select('svg')
             .selectAll('.countries');
 
-        var data = elements.data(this.data.asArray().map(country => Object.assign(country, {type: 'MultiPolygon'})), country => country.code);
+        var data = elements.data(this.data.asArray());
 
         data
             .exit()
@@ -57,7 +58,9 @@ class WorldMap extends Controller {
             });
 
         data
-            .attr('d', this.geoPath);
+            .attr('d', (country) => {
+                return this.geoPath({type: 'MultiPolygon', coordinates: country.coordinates})
+            });
     }
 }
 

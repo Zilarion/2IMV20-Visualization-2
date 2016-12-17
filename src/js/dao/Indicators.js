@@ -6,8 +6,12 @@ class Indicators {
     static getAll() {
         return es.query({
             query: {
-                type : {
-                    value: 'indicator'
+                bool: {
+                    filter: {
+                        type: {
+                            value: 'indicator'
+                        }
+                    }
                 }
             },
             size: 1000

@@ -32,7 +32,7 @@ class CountriesCollection extends Collection {
                 this.models = {};
                 countries.forEach(country => {
                     country.value = null;
-                    this.models[country.id] = country;
+                    this.models[country.code] = country;
                 });
             });
     }
@@ -53,7 +53,9 @@ class CountriesCollection extends Collection {
             this.data = data;
 
             this.data.forEach(timeSeries => {
-                this.models[timeSeries.countryCode].value = timeSeries[this.settings.year];
+                if ((timeSeries.countryCode in this.models) && (this.settings.year in timeSeries)) {
+                    this.models[timeSeries.countryCode].value = timeSeries[this.settings.year];
+                }
             });
         });
     }

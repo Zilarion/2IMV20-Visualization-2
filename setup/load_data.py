@@ -28,7 +28,7 @@ def insertCountries():
             body={
                 'code': countryCode,
                 'name': country['properties']['name'],
-                'coordinates': country['geometry']['coordinates'] if type == 'MultiPolygon' else [country['geometry']['coordinates']]
+                'coordinates': country['geometry']['coordinates'] if country['geometry']['type'] == 'MultiPolygon' else [country['geometry']['coordinates']]
             }
         )
 

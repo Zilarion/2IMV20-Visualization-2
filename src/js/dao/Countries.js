@@ -6,9 +6,13 @@ class Countries {
     static getAll() {
         return es.query({
             query: {
-                type : {
-                    value: 'country'
-                },
+                bool: {
+                    filter: {
+                        type: {
+                            value: 'country'
+                        }
+                    }
+                }
             },
             size: 1000
         });

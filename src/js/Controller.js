@@ -8,8 +8,6 @@ class Controller {
         this.init();
 
         data.on('change', () => this.update());
-
-        this.init();
     }
 
     init() {}
