@@ -31,6 +31,8 @@ class TimeLine extends Controller {
                     .axisLabel('Year')
                     .tickPadding(20);
 
+                chart.forceY([1960,2016]);
+
                 chart.yAxis
                     .axisLabel('Value')
                     .tickPadding(20);
