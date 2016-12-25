@@ -55,10 +55,25 @@ class WorldMap extends Controller {
                 this.tooltip.classed('hidden', true);
             });
 
+        var values = this.data
+            .asArray()
+            .map(({value}) => value)
+            .filter(value => value !== null);
+
+        var min = Math.min.apply(null, values);
+        var max = Math.max.apply(null, values);
+
+        var color = d3.scale
+            .linear()
+            .domain([min, max])
+            .range([d3.rgb("#FF0000"), d3.rgb('#0000FF')])
+            .interpolate(d3.interpolateHcl);
+
         data
             .attr('d', (country) => {
                 return this.geoPath({type: 'MultiPolygon', coordinates: country.coordinates})
-            });
+            })
+            .attr('fill', ({value}) => value !== null ? color(value) : '#FFFFFF');
     }
 }
 

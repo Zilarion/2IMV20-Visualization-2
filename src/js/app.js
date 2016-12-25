@@ -20,7 +20,7 @@ window.componentHandler.register({
 });
 
 var filterService = new FilterService();
-var time = Model.create({year: 2016});
+var time = Model.create({year: 2015});
 
 new Filter(d3.select('#filter'), filterService.indicator, filterService);
 

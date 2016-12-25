@@ -48,9 +48,13 @@ class CountriesCollection extends Collection {
     }
 
     updateValues() {
+        Object.values(this.models).forEach(country => {
+            country.value = null;
+        });
+
         this.data.forEach(timeSeries => {
-            if ((timeSeries.countryCode in this.models) && (this.time.year in timeSeries)) {
-                this.models[timeSeries.countryCode].value = timeSeries[this.time.year];
+            if ((timeSeries.countryCode in this.models) && (this.time.year in timeSeries.values)) {
+                this.models[timeSeries.countryCode].value = timeSeries.values[this.time.year];
             }
         });
     }
