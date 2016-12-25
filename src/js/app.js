@@ -26,4 +26,4 @@ new Filter(d3.select('#filter'), filterService.indicator, filterService);
 
 new WorldMap(d3.select('#worldmap'), new CountriesCollection(filterService.indicator, time));
 
-new TimeLine(d3.select('#timeline'), new WorldValuesCollection(filterService.indicator), time);
+new TimeLine(d3.select('#timeline'), time);

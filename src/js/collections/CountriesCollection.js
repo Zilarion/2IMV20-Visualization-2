@@ -10,8 +10,8 @@ class CountriesCollection extends Collection {
 
         this.time = time;
         this.time.on('change', () => {
-            this.updateValues()
-                .then(() => this.emit('change'));
+            this.updateValues();
+            this.emit('change');
         });
 
         this.data = null;
