@@ -10,9 +10,16 @@ class WorldMap extends Controller {
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('viewBox', '0 0 1920 1080');
 
+        this.svg
+            .append('filter')
+            .attr('id', 'inner-shadow')
+            .append('feGaussianBlur')
+            .attr('in', 'SourceGraphic')
+            .attr('stdDeviation', 3);
+
         this.tooltip = this.container
             .append('div')
-            .attr('class', 'hidden tooltip');
+            .classed('mdl-tooltip', true);
 
         var projection = d3.geo
             .mercator()
@@ -43,16 +50,16 @@ class WorldMap extends Controller {
                 var mouse = d3.mouse(this.container.node());
 
                 this.tooltip
-                    .classed('hidden', false)
+                    .classed('is-active', true)
                     .style({
-                        left: (mouse[0] + 15) + 'px',
-                        top: (mouse[1] - 35) + 'px'
+                        left: (mouse[0] - (this.tooltip[0][0].offsetWidth / 2)) + 'px',
+                        top: (mouse[1] - (this.tooltip[0][0].offsetHeight + 10)) + 'px'
                     })
                     .html(country.name);
             })
             .on('mouseout', () => {
                 // Hide the tooltip
-                this.tooltip.classed('hidden', true);
+                this.tooltip.classed('is-active', false);
             });
 
         var values = this.data
