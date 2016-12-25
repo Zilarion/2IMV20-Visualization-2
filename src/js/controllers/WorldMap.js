@@ -66,7 +66,7 @@ class WorldMap extends Controller {
         var color = d3.scale
             .linear()
             .domain([min, max])
-            .range([d3.rgb("#FF0000"), d3.rgb('#0000FF')])
+            .range([d3.rgb("#0000FF"), d3.rgb('#FF0000')])
             .interpolate(d3.interpolateHcl);
 
         data

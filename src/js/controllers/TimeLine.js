@@ -11,7 +11,9 @@ class TimeLine extends Controller {
             .attr('type', 'range')
             .attr('min', 1960)
             .attr('max', 2016)
-            .attr('step', 1);
+            .attr('step', 1)
+            .classed('mdl-slider', true)
+            .classed('mdl-js-slider', true);
 
         this.slider.on('change', () => {
             this.data.year = parseInt(this.slider.property('value'));
