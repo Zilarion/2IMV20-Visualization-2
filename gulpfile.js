@@ -53,7 +53,7 @@ gulp.task('images', function() {
     return mergeStream(
         gulp.src('src/img/**/*')
             .pipe(gulp.dest('www/img/')),
-        gulp.src('node-modules/flag-icon-css/flags/4x3/*.svg')
+        gulp.src('node_modules/flag-icon-css/flags/4x3/*.svg')
             .pipe(gulp.dest('www/img/flags/'))
     );
 });

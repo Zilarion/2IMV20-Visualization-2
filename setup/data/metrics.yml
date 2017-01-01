@@ -1,0 +1,93 @@
+metrics:
+  economy:
+    inflation:
+      name: Inflation
+      minValue: -50
+      maxValue: 50
+      scale: sqrt
+      series:
+        FP.CPI.TOTL.ZG: {}
+    GDP:
+      name: Gross Domestic Product
+      minValue: 0
+      maxValue: 1e+14
+      scale: log
+      series:
+        NY.GDP.MKTP.CD: {}
+    GDPGrowth:
+      name: GDP Growth
+      minValue: -70
+      maxValue: 190
+      scale: sqrt
+      series:
+        NY.GDP.MKTP.KD.ZG: {}
+    GDPPerCapita:
+      name: GDP per capita
+      minValue: 0
+      maxValue: 2e+5
+      scale: log
+      series:
+        NY.GDP.PCAP.CD: {}
+
+  education:
+    literacyRate:
+      name: Literacy rate
+      minValue: 0
+      maxValue: 100
+      scale: linear
+      series:
+        SE.ADT.1524.LT.FE.ZS:
+          gender: female
+          age: youth
+        SE.ADT.1524.LT.MA.ZS:
+          gender: male
+          age: youth
+        SE.ADT.LITR.FE.ZS:
+          gender: female
+          age: adult
+        SE.ADT.LITR.MA.ZS:
+          gender: male
+          age: adult
+
+  health:
+    lifeExpectancy:
+      name: Life expectancy at birth
+      minValue: 0
+      maxValue: 100
+      scale: linear
+      series:
+        SP.DYN.LE00.MA.IN:
+          gender: male
+        SP.DYN.LE00.FE.IN:
+          gender: female
+        SP.DYN.LE00.IN:
+          gender: both
+
+categories:
+  economy:
+    name: Economy
+  education:
+    name: Education
+  health:
+    name: Health
+
+properties:
+  age:
+    name: Age
+    defaultValue: adult
+    values:
+      young:
+        name: Young (15-24)
+      adult:
+        name: Adult
+
+  gender:
+    name: Gender
+    defaultValue: both
+    values:
+      male:
+        name: Male
+      female:
+        name: Female
+      both:
+        name: Both

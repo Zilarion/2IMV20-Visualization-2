@@ -24,7 +24,7 @@
     "xhr-promise": "^2.0.0"
   },
   "scripts": {
-    "install": "gulp default"
+    "install": "gulp build"
   },
   "repository": {
     "type": "git",

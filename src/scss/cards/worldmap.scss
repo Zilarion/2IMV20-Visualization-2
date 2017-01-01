@@ -18,6 +18,17 @@
   path:hover {
     filter: url('#inner-shadow');
   }
+
+  .mdl-tooltip {
+    .flag-icon {
+      margin-right: .5em;
+    }
+
+    .value {
+      margin-left: .5em;
+      color: unquote("rgb(#{$color-primary})");
+    }
+  }
 }
 
 #timeline {
