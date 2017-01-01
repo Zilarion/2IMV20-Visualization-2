@@ -7,6 +7,7 @@ var concat = require('gulp-concat');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var inject = require('gulp-inject');
+var mergeStream = require('merge-stream');
 var nunjucks = require('gulp-nunjucks');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
@@ -20,7 +21,7 @@ gulp.task('clean', function () {
 
 // Compile js
 gulp.task("js", function () {
-    return browserify('src/js/app.js').bundle()
+    return browserify('src/js/index.js').bundle()
         .on('error', function(error) {
             gutil.log(gutil.colors.red('Error: ' + error.message));
         })
@@ -41,20 +42,24 @@ gulp.task('sass', function() {
 
 // Render html
 gulp.task('html', ['js', 'sass'], function() {
-    return gulp.src('src/index.html')
+    return gulp.src('src/html/index.html')
         .pipe(nunjucks.compile())
         .pipe(inject(gulp.src(['www/**/*.js', 'www/**/*.css'], {read: false}), {ignorePath: 'www'}))
         .pipe(gulp.dest('www/'))
 });
 
 // Copy images
-gulp.task('images', ['js', 'sass'], function() {
-    return gulp.src('src/img/**/*')
-        .pipe(gulp.dest('www/img/'))
+gulp.task('images', function() {
+    return mergeStream(
+        gulp.src('src/img/**/*')
+            .pipe(gulp.dest('www/img/')),
+        gulp.src('node-modules/flag-icon-css/flags/4x3/*.svg')
+            .pipe(gulp.dest('www/img/flags/'))
+    );
 });
 
 gulp.task('build', ['js', 'sass', 'html', 'images'], function() {
-    gutil.log(gutil.colors.green('Done running build'))
+    gutil.log(gutil.colors.green('Done running build'));
 });
 
 gulp.task('default', ['clean', 'build'], function() {});

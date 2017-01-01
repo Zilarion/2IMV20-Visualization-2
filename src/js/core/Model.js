@@ -31,7 +31,7 @@ class Model extends EventEmitter {
         });
     }
 
-    constructor(properties) {
+    constructor(properties={}) {
         super();
 
         this._properties = properties;
@@ -44,7 +44,15 @@ class Model extends EventEmitter {
     set(property, value) {
         this._properties[property] = value;
 
-        this.emit('change');
+        if (value instanceof EventEmitter) {
+            value.on('change', () => {
+                if (this._properties[property] === value) {
+                    this.emit('change', property);
+                }
+            })
+        }
+
+        this.emit('change', property);
     }
 
     has(property) {

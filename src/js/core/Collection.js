@@ -1,7 +1,7 @@
 'use strict';
 
-var EventEmitter = require('events');
-var Model = require('./Model');
+const EventEmitter = require('events');
+const Model = require('./Model');
 
 class Collection extends EventEmitter {
     constructor(settings) {
@@ -30,12 +30,12 @@ class Collection extends EventEmitter {
         return Promise.resolve();
     }
 
-    get(id) {
-        return this.models[id];
+    get(id, defaultValue) {
+        return this.has(id) ? this.models[id] : defaultValue;
     }
 
     has(id) {
-        return Object.hasOwnProperty(this.models, id);
+        return this.models.hasOwnProperty(id);
     }
 
     get length() {

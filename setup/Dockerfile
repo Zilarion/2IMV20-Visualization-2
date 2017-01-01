@@ -15,4 +15,4 @@ RUN pip install -r requirements.txt
 
 ADD load_data.py load_data.py
 
-CMD sleep 10; python ./load_data.py
+CMD python ./load_data.py

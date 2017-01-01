@@ -1,6 +1,6 @@
 'use strict';
 
-var XHRPromise = require('xhr-promise');
+const XHRPromise = require('xhr-promise');
 
 class ElasticSearch {
     static query(q) {
