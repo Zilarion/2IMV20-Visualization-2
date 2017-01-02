@@ -5,7 +5,11 @@ const CountryView = require('../views/CountryView');
 const d3 = require('d3');
 const MetricsCollection = require('../collections/MetricsCollection');
 const MetricView = require('../views/MetricView');
+const Model = require('./Model');
+const NavigationController = require('../controllers/NavigationController');
 const WorldView = require('../views/WorldView');
+
+const DEFAULT_VIEW = 'worldView';
 
 class App {
     constructor() {
@@ -13,10 +17,14 @@ class App {
         this.metrics = new MetricsCollection();
 
         this.views = {
-            countryView: new CountryView(this, d3.select('#countryview')),
-            metricView: new MetricView(this, d3.select('#metricview')),
-            worldView: new WorldView(this, d3.select('#worldview'))
+            countryView: new CountryView(this, d3.select('#countryview'), 'Country'),
+            metricView: new MetricView(this, d3.select('#metricview'), 'Metric'),
+            worldView: new WorldView(this, d3.select('#worldview'), 'World')
         };
+
+        this.navigationSettings = Model.create({view: DEFAULT_VIEW});
+        
+        new NavigationController(this, d3.select('#navigation'), {data: this.navigationSettings});
     }
 
     load() {
@@ -24,7 +32,7 @@ class App {
             this.countries.load(),
             this.metrics.load()
         ]).then(() => {
-            this.show('worldView');
+            this.show(DEFAULT_VIEW);
         });
     }
 

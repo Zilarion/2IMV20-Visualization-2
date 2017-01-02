@@ -12,6 +12,13 @@ const DEFAULT_METRIC = 'inflation';
 const DEFAULT_YEAR = 2015;
 
 class WorldView extends View {
+    get name() {
+        return 'World Map';
+    }
+    get icon() {
+        return 'public';
+    }
+
     get countries() {
         return this.app.countries;
     }

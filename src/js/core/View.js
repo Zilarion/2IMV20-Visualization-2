@@ -7,6 +7,7 @@ class View {
         this.app = app;
         this.container = container;
         this.data = Model.create();
+
         this.init();
     }
 

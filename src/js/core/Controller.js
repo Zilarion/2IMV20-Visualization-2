@@ -1,7 +1,7 @@
 'use strict';
 
 class Controller {
-    constructor(view, container, data) {
+    constructor(view, container, data={}) {
         this.view = view;
         this.container = container;
 
