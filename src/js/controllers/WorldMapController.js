@@ -19,40 +19,47 @@ class PathList extends ElementList {
     }
 
     enter(elements) {
+        var self = this;
+
         elements
             .append('path')
-            .on('mousemove', (country) => {
-                const mouse = d3.mouse(this.controller.container.node());
+            .on('mousemove', function (country) {
+                d3.select(this)
+                    .each(function () {
+                    this.parentNode.appendChild(this);
+                });
 
-                const value = this.getValue(country.code);
+                const mouse = d3.mouse(self.controller.container.node());
 
-                this.controller.tooltip
+                const value = self.getValue(country.code);
+
+                self.controller.tooltip
                     .classed('is-active', true)
                     .style({
-                        left: (mouse[0] - (this.controller.tooltip[0][0].offsetWidth / 2)) + 'px',
-                        top: (mouse[1] - (this.controller.tooltip[0][0].offsetHeight + 10)) + 'px'
+                        left: (mouse[0] - (self.controller.tooltip[0][0].offsetWidth / 2)) + 'px',
+                        top: (mouse[1] - (self.controller.tooltip[0][0].offsetHeight + 10)) + 'px'
                     });
 
                 const backgroundImage = 'alpha2Code' in country ?
                     `url('/img/flags/${country.alpha2Code.toLowerCase()}.svg')` :
                     null;
 
-                this.controller.tooltip
+                self.controller.tooltip
                     .select('span.flag-icon')
                     .classed('hidden', !('alpha2Code' in country))
                     .style('background-image', backgroundImage);
 
-                this.controller.tooltip
+                self.controller.tooltip
                     .select('span.country')
                     .text(country.name);
 
-                this.controller.tooltip
+                self.controller.tooltip
                     .select('span.value')
                     .classed('hidden', value === null)
                     .text(d3.format('.4s')(value));
             })
             .on('mouseout', () => {
-                this.controller.tooltip.classed('is-active', false);
+                self.controller.tooltip.classed('is-active', false);
             });
     }
 
@@ -103,18 +110,6 @@ class PathList extends ElementList {
 
 class WorldMapController extends Controller {
     init() {
-        this.svg = this.container
-            .append('svg')
-            .attr('preserveAspectRatio', 'xMidYMid meet')
-            .attr('viewBox', '0 0 1920 1080');
-
-        this.svg
-            .append('filter')
-            .attr('id', 'inner-shadow')
-            .append('feGaussianBlur')
-            .attr('in', 'SourceGraphic')
-            .attr('stdDeviation', 3);
-
         this.tooltip = this.container
             .append('div')
             .classed('mdl-tooltip', true);
@@ -133,7 +128,7 @@ class WorldMapController extends Controller {
 
         this.pathList = new PathList(
             this,
-            this.svg
+            this.container.select('svg')
         );
     }
 

@@ -3,6 +3,24 @@
 {% block title %}World map{% endblock %}
 
 {% block contents %}
-    <div id="worldmap"></div>
+    <div id="worldmap">
+        <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 1920 1080">
+            <defs>
+                <filter id="country_default" primitiveUnits="userSpaceOnUse">
+                    <feMorphology in="SourceGraphic" operator="erode" radius="2" />
+                </filter>
+                <filter id="country_hover">
+                    <feMorphology in="SourceAlpha" result="dilated" operator="dilate" radius="6" />
+                    <feGaussianBlur in="dilated" result="blurred" stdDeviation="4" />
+                    <feFlood flood-color="#000000" flood-opacity=".5" result="flood" />
+                    <feComposite in="flood" in2="blurred" result="shadow" operator="in" />
+                    <feMerge>
+                        <feMergeNode in="shadow" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+        </svg>
+    </div>
     <div id="timeline"></div>
 {% endblock %}
