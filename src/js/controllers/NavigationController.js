@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('../core/Controller');
+const d3 = require('d3');
 const ElementList = require('../core/ElementList');
 
 class LinkList extends ElementList {
@@ -25,7 +26,9 @@ class LinkList extends ElementList {
             .classed('mdl-navigation__link', true)
             .attr('href', '#')
             .on('click', ([viewName,]) => {
-
+                d3.event.preventDefault();
+                this.controller.view.show(viewName, {});
+                d3.select('.mdl-layout')[0][0].MaterialLayout.toggleDrawer();
             });
 
         a
@@ -54,7 +57,7 @@ class NavigationController extends Controller {
     init() {
         this.linkList = new LinkList(
             this,
-            this.container
+            this.container.select('nav')
         );
     }
 

@@ -9,6 +9,10 @@ class CountryView extends View {
     get icon() {
         return 'flag';
     }
+
+    get routingTemplate() {
+        return '/country';
+    }
 }
 
 module.exports = CountryView;

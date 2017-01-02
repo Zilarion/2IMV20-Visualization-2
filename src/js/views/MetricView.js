@@ -9,6 +9,10 @@ class MetricView extends View {
     get icon() {
         return 'poll';
     }
+
+    get routingTemplate() {
+        return '/metric'
+    }
 }
 
 module.exports = MetricView;

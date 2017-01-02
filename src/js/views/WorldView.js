@@ -18,6 +18,9 @@ class WorldView extends View {
     get icon() {
         return 'public';
     }
+    get routingTemplate() {
+        return '/world-map/:metric/:year'
+    }
 
     get countries() {
         return this.app.countries;
@@ -41,7 +44,7 @@ class WorldView extends View {
         new TimeLineController(this, d3.select('#timeline'), {data: this.data});
     }
 
-    show(metric, year, properties) {
+    show({metric, year, properties}) {
         if (metric) {
             this.setMetric(metric);
         }

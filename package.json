@@ -19,6 +19,7 @@
     "gulp-sourcemaps": "^1.9.1",
     "material-design-lite": "^1.2.1",
     "merge-stream": "^1.0.1",
+    "navigo": "^4.0.0",
     "nvd3": "^1.8.5",
     "vinyl-source-stream": "1.1.0",
     "xhr-promise": "^2.0.0"
