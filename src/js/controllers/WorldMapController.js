@@ -33,10 +33,14 @@ class PathList extends ElementList {
                         top: (mouse[1] - (this.controller.tooltip[0][0].offsetHeight + 10)) + 'px'
                     });
 
+                const backgroundImage = 'alpha2Code' in country ?
+                    `url('/img/flags/${country.alpha2Code.toLowerCase()}.svg')` :
+                    null;
+
                 this.controller.tooltip
                     .select('span.flag-icon')
-                    .classed('hidden', country.alpha2Code === null)
-                    .style('background-image', `url('/img/flags/${country.alpha2Code.toLowerCase()}.svg')`);
+                    .classed('hidden', !('alpha2Code' in country))
+                    .style('background-image', backgroundImage);
 
                 this.controller.tooltip
                     .select('span.country')
@@ -45,7 +49,7 @@ class PathList extends ElementList {
                 this.controller.tooltip
                     .select('span.value')
                     .classed('hidden', value === null)
-                    .text(d3.format('.4s')(value).toUpperCase());
+                    .text(d3.format('.4s')(value));
             })
             .on('mouseout', () => {
                 this.controller.tooltip.classed('is-active', false);
