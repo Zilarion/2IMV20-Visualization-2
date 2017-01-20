@@ -12,7 +12,7 @@ class TimeSeries {
                             return {term: {[property]: value}};
                         })
                         .concat([
-                            {term: {metric: metric}},
+                            {term: {metric: metric.toLowerCase()}},
                             {type: {value: 'timeSeries'}}
                         ])
                 }
