@@ -1,0 +1,43 @@
+.toplist {
+  & > li:not(:first-child) {
+    border-top: solid 1px unquote("rgba(#{$color-white}, 0.2)");
+  }
+
+  .mdl-list__item-avatar {
+    text-align: center;
+    font-weight: bold;
+    align-self: flex-start;
+    margin-top: 16px;
+  }
+
+  ul {
+    width: 100%;
+
+    li {
+      width: 100%;
+
+      .toplist__value.mdl-list__item-sub-title {
+        display: flex;
+        max-width: 300px;
+
+        .toplist__number {
+          display: block;
+          flex-basis: 50px;
+          text-align: right;
+        }
+
+        .toplist__meter {
+          margin-left: .5em;
+          display: block;
+          flex-grow: 3;
+
+          .mdl-progress {
+            height: 14px;
+            padding-top: 4px;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,12 @@
 'use strict';
 
+const ComparisonView = require('../views/ComparisonView');
 const CountriesCollection = require('../collections/CountriesCollection');
+const CountriesView = require('../views/CountriesView');
 const CountryView = require('../views/CountryView');
 const d3 = require('d3');
 const MetricsCollection = require('../collections/MetricsCollection');
-const MetricView = require('../views/MetricView');
+const MetricsView = require('../views/MetricsView');
 const Model = require('./Model');
 const NavigationController = require('../controllers/NavigationController');
 const Navigo = require('navigo');
@@ -18,9 +20,11 @@ class App {
         this.metrics = new MetricsCollection();
 
         this.views = {
-            countryView: new CountryView(this, d3.select('#countryview'), 'Country'),
-            metricView: new MetricView(this, d3.select('#metricview'), 'Metric'),
-            worldView: new WorldView(this, d3.select('#worldview'), 'World')
+            comparisonView: new ComparisonView(this, d3.select('#comparisonview')),
+            countriesView: new CountriesView(this, d3.select('#countriesview')),
+            countryView: new CountryView(this, d3.select('#countryview')),
+            metricsView: new MetricsView(this, d3.select('#metricsview')),
+            worldView: new WorldView(this, d3.select('#worldview'))
         };
 
         this.navigationSettings = Model.create({view: DEFAULT_VIEW});

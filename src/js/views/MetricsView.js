@@ -2,17 +2,17 @@
 
 const View = require('../core/View');
 
-class MetricView extends View {
+class MetricsView extends View {
     get name() {
-        return 'Metric';
+        return 'Metrics';
     }
     get icon() {
         return 'poll';
     }
 
     get routingTemplate() {
-        return '/metric'
+        return '/metrics'
     }
 }
 
-module.exports = MetricView;
+module.exports = MetricsView;

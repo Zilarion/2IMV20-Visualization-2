@@ -7,7 +7,7 @@ class CountryView extends View {
         return 'Country';
     }
     get icon() {
-        return 'flag';
+        return 'place';
     }
 
     get routingTemplate() {
