@@ -1,18 +1,33 @@
 import csv
 from elasticsearch import ConnectionError, Elasticsearch
 import json
+from math import log, sqrt
+import sys
 from time import sleep
 import yaml
 
 es = Elasticsearch([{'host': 'elasticsearch'}, {'port': 9200}])
 
 def awaitConnection():
+    i = {'i':0}
+    n = 5
+    def msg():
+        sys.stdout.write('\rTrying to reach elasticsearch ')
+        sys.stdout.write(' '*i['i'])
+        sys.stdout.write('...')
+        sys.stdout.write(' '*((n-1)-i['i']))
+        sys.stdout.flush()
+        i['i'] = (i['i'] + 1) % n
+
+    print('')
+    msg()
     while True:
         try:
             es.info()
+            print('')
             return
         except ConnectionError:
-            print('Cannot reach elasticsearch...')
+            msg()
             sleep(1)
 
 awaitConnection()
@@ -113,17 +128,110 @@ def insertTimeSeries():
                 body=doc
             )
 
-if not es.indices.exists('data'):
+scales = {
+    'linear': lambda x: x,
+    'sqrt': sqrt,
+    'log': log
+}
+def normalize(v, min, max, scale):
+    scale = scales[scale]
+    v = scale(v)
+    min = scale(min)
+    max = scale(max)
+
+    return (v - min) / (max - min)
+
+def dist(v1, v2, min, max, scale):
+    return abs(normalize(v1, min, max, scale) - normalize(v2, min, max, scale))
+
+def getTimeSeries(field, value):
+    result = es.search(
+        index='data',
+        doc_type='timeSeries',
+        body={
+            'query': {
+                'bool': {
+                    'filter': [
+                        {
+                            'term': {
+                                field: value.lower()
+                            }
+                        }
+                    ]
+                }
+            },
+            'size': 1000
+        }
+    )
+
+    result = result['hits']['hits']
+
+    return {record['_id']: {int(year): value for year, value in record['_source']['values'].items()} for record in result}
+
+def insertCountryDistances():
+    countries = sorted([country['id'] for country in getCountryData()['features']])
+    metrics = {series: metric for metrics in getMetricData()['metrics'].values() for metric in metrics.values() for series in metric['series'].keys()}
+
+    for i in range(len(countries)):
+        c1 = countries[i]
+        c1data = getTimeSeries('countryCode', c1)
+
+        for j in range(i+1, len(countries)):
+            c2 = countries[j]
+            c2data = getTimeSeries('countryCode', c2)
+
+            distances = {}
+
+            for year in range(1960, 2016):
+                distance = 0
+                n = 0
+                for series, metric in metrics.items():
+                    k1 = '.'.join([c1, series])
+                    k2 = '.'.join([c2, series])
+
+                    if k1 not in c1data or k2 not in c2data or year not in c1data[k1] or year not in c2data[k2]:
+                        continue
+
+                    distance += dist(c1data[k1][year], c2data[k2][year], float(metric['minValue']), float(metric['maxValue']), metric['scale'])
+                    n += 1
+                distances[year] = (distance / n) if n > 0 else 1
+
+            es.index(
+                index='data',
+                doc_type='countryDistance',
+                id='-'.join([c1, c2]),
+                body={
+                    'country1': c1,
+                    'country2': c2,
+                    'distances': distances
+                }
+            )
+
+def insertMetricDistances():
+    pass
+
+if es.indices.exists('data'):
     print('Inserting countries...')
     insertCountries()
     print('Done')
+
     print('Inserting metrics...')
     insertMetrics()
     print('Done')
+
     print('Inserting time series...')
-    insertTimeSeries()
+    #insertTimeSeries()
     print('Done')
+
+    print('Inserting distances between countries...')
+    insertCountryDistances()
+    print('Done')
+
+    print('Inserting distances between metrics...')
+    insertMetricDistances()
+    print('Done')
+
     print('')
-    print('All done')
+    print('All done!')
 else:
     print('Data was already set up')
