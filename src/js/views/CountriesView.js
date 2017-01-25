@@ -36,7 +36,7 @@ class CountriesView extends View {
 
     init() {
         this.data.year = DEFAULT_YEAR;
-        this.data.metrics = ['SE.ADT.LITR.MA.ZS', 'NY.GDP.MKTP.CD'];
+        this.data.metrics = ['SE.ADT.LITR.MA.ZS', 'NY.GDP.MKTP.CD', 'FP.CPI.TOTL.ZG'];
 
 
         this.values = new MetricSeriesCollection(this.data);

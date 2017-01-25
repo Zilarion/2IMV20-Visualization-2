@@ -118,20 +118,8 @@ class PCP extends ElementList {
                 let result= lineFunction(Object.keys(metric).map(function (key) {
                     return metric[key];
                 }));
-                console.log(result);
                 return result;
             });
-
-        // lineFunction(this.data.filter(([,d]) => {
-        //     let result = true;
-        //     Object.keys(d).forEach((key) => {
-        //         const metric = d[key];
-        //         if (metric.value === null || metric.value === undefined) {
-        //             result = false;
-        //         }
-        //     });
-        //     return result;
-        // }).asArray())
     }
 }
 
