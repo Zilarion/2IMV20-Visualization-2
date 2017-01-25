@@ -1,0 +1,11 @@
+svg.timeSeries {
+  width: 100%;
+  max-height: 30vw;
+
+  path {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+  }
+}

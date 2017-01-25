@@ -45,6 +45,10 @@ class Collection extends EventEmitter {
     asArray() {
         return Object.values(this.models);
     }
+
+    asKeyValueArray() {
+        return Object.entries(this.models);
+    }
 }
 
 module.exports = Collection
