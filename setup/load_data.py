@@ -115,7 +115,7 @@ def insertTimeSeries():
             id = '.'.join((countryCode, indicatorCode))
 
             doc = {
-                'id': id,
+                'id': indicatorCode,
                 'countryCode': countryCode,
                 'metric': metric,
                 'values': {year: float(row[str(year)]) for year in range(1960, 2016) if row[str(year)] != ''}
