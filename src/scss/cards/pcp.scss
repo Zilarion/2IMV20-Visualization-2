@@ -1,8 +1,35 @@
 .pcp {
   background-color: white;
-}
+  svg {
+    font: 14px sans-serif;
+  }
 
-.foreground {
-  stroke: blue;
-  fill: none;
+  .countryLine.unselected {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+  }
+
+  .countryLine {
+    fill: none;
+    stroke: steelblue;
+  }
+
+  .brush .extent {
+    fill-opacity: .3;
+    stroke: #fff;
+    shape-rendering: crispEdges;
+  }
+
+  .axis line,
+  .axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .axis text {
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    cursor: move;
+  }
 }
