@@ -20,8 +20,7 @@ class PCP extends ElementList {
 
     enter(elements) {
         var self = this;
-
-        console.log(elements);
+        
         // Add grey background lines for context.
 
         elements.append("path");

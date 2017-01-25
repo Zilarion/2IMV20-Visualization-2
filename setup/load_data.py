@@ -91,7 +91,8 @@ def insertMetrics():
                     'minValue': float(metric['minValue']),
                     'maxValue': float(metric['maxValue']),
                     'scale': metric['scale'],
-                    'properties': {property: metricData['properties'][property] for property in properties}
+                    'properties': {property: metricData['properties'][property] for property in properties},
+                    'series': metric['series']
                 }
             )
 
@@ -112,8 +113,6 @@ def insertTimeSeries():
                 continue
             metric, properties = metrics[indicatorCode]
 
-            id = '.'.join((countryCode, indicatorCode))
-
             doc = {
                 'id': indicatorCode,
                 'countryCode': countryCode,
@@ -127,7 +126,7 @@ def insertTimeSeries():
             es.index(
                 index='data',
                 doc_type='timeSeries',
-                id=id,
+                id='.'.join((countryCode, indicatorCode)),
                 body=doc
             )
 
