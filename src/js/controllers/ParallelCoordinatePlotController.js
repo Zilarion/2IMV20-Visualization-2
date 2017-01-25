@@ -34,17 +34,7 @@ class PCP extends ElementList {
     enter(elements) {
         var self = this;
         
-        // Add grey background lines for context.
-
-
-        // elements.append("path");
-
-        // svg.append("g")
-        //     .attr("class", "background")
-        //     .selectAll("path")
-        //     .data(cars)
-        //     .enter().append("path")
-        //     .attr("d", path);
+        elements.append("path").attr("class", "foreground");
         //
         // // Add blue foreground lines for focus.
         // svg.append("g")
@@ -62,43 +52,86 @@ class PCP extends ElementList {
     }
 
     updateElements(elements) {
+        // Update axes
         const metrics = this.metrics;
 
-        if (!metrics) {
+        if (!metrics || metrics.length == 0) {
             return;
         }
 
-        let scales = {};
+        // Compute scales for the metrics
+        let scales = [];
 
-        metrics.forEach((metric) => {
-            const x = d3.scale.ordinal()
-                .domain([0, metrics.length - 1])
-                .rangePoints([50, 1870]); // 20 padding
-            const y = d3.scale
+        const x = d3.scale.ordinal()
+            .domain(metrics.map(function(d) { return d.metric; }))
+            .rangePoints([100, 1820]); // 100 padding
+        let y = {};
+
+
+        Object.keys(metrics).forEach((key) => {
+            let metric = metrics[key];
+            y[metric.metric] = d3.scale
                 [metric.scale]()
                 .domain([metric.minValue, metric.maxValue])
-                .range([1030, 50]); // 50 padding
+                .range([1030, 50]); // 50 top, 50 bottom padding
 
-            return scales[metric.metric] = {id: Object.keys(scales).length, x: x, y: y};
+            scales.push({key: key, metric: metric.metric, name: metric.name});
         });
 
-        Object.keys(scales).forEach((key) => {
-            const metricScale = scales[key];
-            const axis = d3.svg.axis().orient("left");
+        const axis = d3.svg.axis().orient("left");
 
-            const g = this.container.append("g")
-                .attr("transform", "translate(" + metricScale.x(metricScale.id) + ")");
+        let dim = this.container.selectAll(".dimensions")
+            .data(scales)
+            .enter()
+            .append("g")
+            .attr("class", "dimension")
+            .attr("transform", function(d) { return "translate(" + x(d.metric) + ")" });
 
-            g.append("g")
-                .attr("class", "axis")
-                .call(axis.scale(metricScale.y))
-                .append("text")
-                .style("text-anchor", "middle")
-                .attr("y", -9)
-                .text(function(d) { return d; });
-        });
+        let axes = dim
+            .append("g")
+            .attr("class", "axis")
+            .each(function(d) { d3.select(this).call(axis.scale(y[d.metric])); })
+            .append("text")
+            .style("text-anchor", "middle")
+            .attr("y", 12)
+            .text(function(d) { return d.name || "-"; })
 
+        // Draw lines
+        let lineFunction = d3.svg.line()
+            .x((d) => x(d.metric))
+            .y((d) => y[d.metric](d.value));
 
+        elements
+            .filter(function(d) {
+                var d = d[1];
+                let result = true;
+                Object.keys(d).forEach((key) => {
+                    const metric = d[key];
+                    if (metric.value === null || metric.value === undefined) {
+                        result = false;
+                    }
+                });
+                return result;
+            })
+            .attr('d', (d) => {
+                let metric = d[1];
+                let result= lineFunction(Object.keys(metric).map(function (key) {
+                    return metric[key];
+                }));
+                console.log(result);
+                return result;
+            });
+
+        // lineFunction(this.data.filter(([,d]) => {
+        //     let result = true;
+        //     Object.keys(d).forEach((key) => {
+        //         const metric = d[key];
+        //         if (metric.value === null || metric.value === undefined) {
+        //             result = false;
+        //         }
+        //     });
+        //     return result;
+        // }).asArray())
     }
 }
 

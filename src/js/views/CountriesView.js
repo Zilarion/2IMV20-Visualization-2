@@ -41,7 +41,7 @@ class CountriesView extends View {
 
         this.values = new MetricSeriesCollection(this.data);
 
-        new ParallelCoordinatePlotController(this, d3.select('#pcp'),  {values: this.values});
+        new ParallelCoordinatePlotController(this, d3.select('.pcp'),  {values: this.values});
         new CountryDistanceController(this, d3.select('#countryDistance'));
     }
 }
