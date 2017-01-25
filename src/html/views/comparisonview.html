@@ -1,8 +1,12 @@
 <main id="comparisonview" class="mdl-layout__content hidden">
     <div class="mdl-grid mdl-grid--no-spacing">
         <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-cell--9-col-desktop">
-            <div class="mdl-cell mdl-cell--12-col">
-                {% include "cards/timeline.html" %}
+            <div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone">
+                {% include "cards/filter.html" %}
+            </div>
+
+            <div class="mdl-cell mdl-cell--8-col mdl-cell--12-col-phone">
+                {% include "cards/countries-timeseries.html" %}
             </div>
 
             <div class="mdl-cell mdl-cell--12-col">

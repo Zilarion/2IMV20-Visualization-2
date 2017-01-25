@@ -1,0 +1,12 @@
+{% extends "cards/timeseries.html" %}
+
+{% block title %}
+Metric
+{% endblock %}
+
+{% block contents %}
+<div id="metric-timeseries">
+    <div><select><option>Metric</option></select></div>
+    {{ super() }}
+</div>
+{% endblock %}

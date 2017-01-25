@@ -36,7 +36,7 @@ class TimeLineController extends Controller {
             .append('input')
             .attr('type', 'range')
             .attr('min', 1960)
-            .attr('max', 2016)
+            .attr('max', 2015)
             .attr('step', 1)
             .classed('mdl-slider', true);
 

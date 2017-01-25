@@ -210,7 +210,7 @@ def insertCountryDistances():
 def insertMetricDistances():
     pass
 
-if es.indices.exists('data'):
+if not es.indices.exists('data'):
     print('Inserting countries...')
     insertCountries()
     print('Done')
