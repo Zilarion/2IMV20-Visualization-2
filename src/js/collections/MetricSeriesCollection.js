@@ -11,7 +11,7 @@ class MetricSeriesCollection extends Collection {
                 this.models = {};
                 metrics.forEach((timeSeries) => {
                     this.models[timeSeries.countryCode] = this.models[timeSeries.countryCode] || {};
-                    this.models[timeSeries.countryCode][timeSeries.id] = timeSeries.values[this.settings.year];
+                    this.models[timeSeries.countryCode][timeSeries.id] = {value: timeSeries.values[this.settings.year], metric: timeSeries.metric};
                 });
             });
     }

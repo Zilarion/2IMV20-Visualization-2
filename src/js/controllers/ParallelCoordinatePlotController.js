@@ -9,6 +9,19 @@ class PCP extends ElementList {
         return this.controller.values.asKeyValueArray();
     }
 
+    get metrics() {
+        if (!this.data[0]) {
+            return [];
+        }
+
+        let metrics = [];
+        let data = this.data[0][1] ? this.data[0][1] : [];
+        for (let metricId in data) {
+            metrics.push(this.controller.view.metrics.get(data[metricId].metric));
+        }
+        return metrics;
+    }
+
     get keyMapping() {
         return ([countryCode,]) => countryCode;
     }
@@ -23,7 +36,8 @@ class PCP extends ElementList {
         
         // Add grey background lines for context.
 
-        elements.append("path");
+
+        // elements.append("path");
 
         // svg.append("g")
         //     .attr("class", "background")
@@ -48,38 +62,43 @@ class PCP extends ElementList {
     }
 
     updateElements(elements) {
-        // const metrics = this.controller.view.metric;
-        //
-        // const projection = d3.geo
-        //     .mercator()
-        //     .scale(250)
-        //     .translate([1920 / 2, 1080 / 2 + 200]);
-        //
-        // const geoPath = d3.geo
-        //     .path()
-        //     .projection(projection);
-        //
-        // elements
-        //     .attr('d', (country) => {
-        //         return geoPath({type: 'MultiPolygon', coordinates: country.coordinates});
-        //     });
-        //
-        // if (!metric) {
-        //     return;
-        // }
-        //
-        // const color = d3.scale
-        //     [metric.scale]()
-        //     .domain([metric.minValue, metric.maxValue])
-        //     .range([d3.rgb("#0000FF"), d3.rgb('#FF0000')])
-        //     .interpolate(d3.interpolateHcl);
-        //
-        // elements
-        //     .attr('fill', ({code}) => {
-        //         const value = this.getValue(code);
-        //
-        //         return value !== null ? color(value) : '#FFFFFF';
-        //     });
+        const metrics = this.metrics;
+
+        if (!metrics) {
+            return;
+        }
+
+        let scales = {};
+
+        metrics.forEach((metric) => {
+            const x = d3.scale.ordinal()
+                .domain([0, metrics.length - 1])
+                .rangePoints([50, 1870]); // 20 padding
+            const y = d3.scale
+                [metric.scale]()
+                .domain([metric.minValue, metric.maxValue])
+                .range([1030, 50]); // 50 padding
+
+            return scales[metric.metric] = {id: Object.keys(scales).length, x: x, y: y};
+        });
+
+        Object.keys(scales).forEach((key) => {
+            const metricScale = scales[key];
+            const axis = d3.svg.axis().orient("left");
+
+            const g = this.container.append("g")
+                .attr("transform", "translate(" + metricScale.x(metricScale.id) + ")");
+
+            g.append("g")
+                .attr("class", "axis")
+                .call(axis.scale(metricScale.y))
+                .append("text")
+                .style("text-anchor", "middle")
+                .attr("y", -9)
+                .text(function(d) { return d; });
+        });
+
+
     }
 }
 

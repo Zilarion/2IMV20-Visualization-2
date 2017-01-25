@@ -22,9 +22,21 @@ class CountriesView extends View {
         return '/countries';
     }
 
+    get countries() {
+        return this.app.countries;
+    }
+
+    get metrics() {
+        return this.app.metrics;
+    }
+
+    get metric() {
+        return this.metrics.get(this.data.metric);
+    }
+
     init() {
         this.data.year = DEFAULT_YEAR;
-        this.data.metrics = ['ny.gdp.mktp.cd', 'SP.DYN.LE00.FE.IN'];
+        this.data.metrics = ['SE.ADT.LITR.MA.ZS', 'NY.GDP.MKTP.CD'];
 
 
         this.values = new MetricSeriesCollection(this.data);
