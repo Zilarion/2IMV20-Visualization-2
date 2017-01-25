@@ -112,7 +112,10 @@ def insertTimeSeries():
                 continue
             metric, properties = metrics[indicatorCode]
 
+            id = '.'.join((countryCode, indicatorCode))
+
             doc = {
+                'id': id,
                 'countryCode': countryCode,
                 'metric': metric,
                 'values': {year: float(row[str(year)]) for year in range(1960, 2016) if row[str(year)] != ''}
@@ -124,7 +127,7 @@ def insertTimeSeries():
             es.index(
                 index='data',
                 doc_type='timeSeries',
-                id='.'.join((countryCode, indicatorCode)),
+                id=id,
                 body=doc
             )
 
@@ -220,15 +223,15 @@ if not es.indices.exists('data'):
     print('Done')
 
     print('Inserting time series...')
-    #insertTimeSeries()
+    insertTimeSeries()
     print('Done')
 
     print('Inserting distances between countries...')
-    insertCountryDistances()
+    #insertCountryDistances()
     print('Done')
 
     print('Inserting distances between metrics...')
-    insertMetricDistances()
+    #insertMetricDistances()
     print('Done')
 
     print('')

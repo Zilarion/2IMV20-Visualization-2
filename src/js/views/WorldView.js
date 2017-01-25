@@ -39,9 +39,9 @@ class WorldView extends View {
         this.data.year = DEFAULT_YEAR;
         this.values = new ValuesCollection(this.data);
 
-        new FilterController(this, d3.select('#filter'), {data: this.data, metrics: this.metrics});
-        new WorldMapController(this, d3.select('#worldmap'), {countries: this.countries, values: this.values});
-        new TimeLineController(this, d3.select('#timeline'), {data: this.data});
+        new FilterController(this, this.container.select('.filter'), {data: this.data, metrics: this.metrics});
+        new WorldMapController(this, this.container.select('#worldmap'), {countries: this.countries, values: this.values});
+        new TimeLineController(this, this.container.select('.timeline'), {data: this.data});
     }
 
     show({metric, year, properties}) {

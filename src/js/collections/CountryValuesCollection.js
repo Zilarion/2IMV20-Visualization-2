@@ -3,7 +3,7 @@
 const Collection = require('../core/Collection');
 const TimeSeriesDAO = require('../dao/TimeSeriesDAO');
 
-class ValuesCollection extends Collection {
+class CountryValuesCollection extends Collection {
     loadData() {
         return this
             .getTimeSeries()
@@ -11,21 +11,19 @@ class ValuesCollection extends Collection {
                 this.models = {};
 
                 timeSeries.forEach((timeSeries) => {
-                    this.models[timeSeries.countryCode] =
-                        this.settings.year in timeSeries.values ?
-                            timeSeries.values[this.settings.year] :
+                    this.models[timeSeries.id] =
+                        this.settings.data.year in timeSeries.values ?
+                            timeSeries.values[this.settings.data.year] :
                             null;
                 });
             });
     }
 
     getTimeSeries() {
-        if (this.settings.metric === this.metric) {
-            Promise.resolve(this.timeSeries);
-        } // TODO: fixme
+        // TODO: check if country the same, then dont reload
 
         return TimeSeriesDAO
-            .getAllByMetric(this.settings.metric, this.settings.properties)
+            .getAllByCountry(this.settings.country.code)
             .then(timeSeries => {
                 this.timeSeries = timeSeries;
 
@@ -34,4 +32,4 @@ class ValuesCollection extends Collection {
     }
 }
 
-module.exports = ValuesCollection;
+module.exports = CountryValuesCollection;

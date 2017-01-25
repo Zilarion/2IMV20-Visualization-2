@@ -2,7 +2,7 @@
 
 const es = require('../connections/ElasticSearch');
 
-class Metrics {
+class MetricsDAO {
     static getAll() {
         return es.queryAll({
             query: {
@@ -19,4 +19,4 @@ class Metrics {
     }
 }
 
-module.exports = Metrics;
+module.exports = MetricsDAO;
