@@ -1,5 +1,7 @@
 'use strict';
 
+var EventEmitter = require('events');
+
 class Controller {
     constructor(view, container, data={}) {
         this.view = view;
@@ -9,9 +11,11 @@ class Controller {
             .forEach(([key, value]) => {
                 this[key] = value;
 
-                value.on('change', () => {
-                    this.update();
-                });
+                if (value instanceof EventEmitter) {
+                    value.on('change', () => {
+                        this.update();
+                    });
+                }
             });
 
         this.init();

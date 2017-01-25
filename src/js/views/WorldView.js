@@ -4,6 +4,7 @@ const d3 = require('d3');
 const FilterController = require('../controllers/FilterController');
 const Model = require('../core/Model');
 const TimeLineController = require('../controllers/TimeLineController');
+const TopListController = require('../controllers/TopListController');
 const View = require('../core/View');
 const ValuesCollection = require('../collections/ValuesCollection');
 const WorldMapController = require('../controllers/WorldMapController');
@@ -42,6 +43,9 @@ class WorldView extends View {
         new FilterController(this, this.container.select('.filter'), {data: this.data, metrics: this.metrics});
         new WorldMapController(this, this.container.select('#worldmap'), {countries: this.countries, values: this.values});
         new TimeLineController(this, this.container.select('.timeline'), {data: this.data});
+
+        new TopListController(this, this.container.select('#highest'), {countries: this.countries, values: this.values, highest: true});
+        new TopListController(this, this.container.select('#lowest'), {countries: this.countries, values: this.values, highest: false});
     }
 
     show({metric, year, properties}) {
