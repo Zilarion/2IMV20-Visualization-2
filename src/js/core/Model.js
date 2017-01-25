@@ -34,14 +34,17 @@ class Model extends EventEmitter {
     constructor(properties={}) {
         super();
 
-        this._properties = properties;
+        this._properties = {};
+        Object.entries(properties).forEach(([property, value]) => {
+            this._set(property, value);
+        });
     }
 
     get(property) {
         return this._properties[property];
     }
 
-    set(property, value) {
+    _set(property, value) {
         this._properties[property] = value;
 
         if (value instanceof EventEmitter) {
@@ -51,6 +54,10 @@ class Model extends EventEmitter {
                 }
             })
         }
+    }
+
+    set(property, value) {
+        this._set(property, value);
 
         this.emit('change', property);
     }

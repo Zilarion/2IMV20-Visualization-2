@@ -53,7 +53,7 @@ class ComparisonView extends View {
         this.country2Values = new CountryValuesCollection(this.country2Data);
 
         this.filterController = new FilterController(this, this.container.select('.filter'), {data: this.data, metrics: this.metrics});
-        this.comparisonTimeSeriesController = new ComparisonTimeSeriesController(this, this.container.select('#countries-timeseries'), {data: this.data, country1Values: this.country1TimeSeries, country2Values: this.country2TimeSeries});
+        this.comparisonTimeSeriesController = new ComparisonTimeSeriesController(this, this.container.select('#countries-timeseries'), {country1Values: this.country1TimeSeries, country2Values: this.country2TimeSeries});
         this.timeLineController = new TimeLineController(this, this.container.select('.timeline'), {data: this.data});
         this.countryComparisonController = new CountryComparisonController(this, this.container.select('#countryComparison'), {countries: this.countries, metrics: this.metrics, country1Values: this.country1Values, country2Values: this.country2Values});
     }

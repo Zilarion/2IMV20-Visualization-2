@@ -32,9 +32,9 @@ class ComparisonTimeSeriesController extends Controller {
             .y(([,value]) => y(value));
 
         this.country1Line
-            .attr('d', line(this.country1Values.asKeyValueArray()));
+            .attr('d', line(this.country1Values.asKeyValueArray().filter(([,value]) => value !== null)));
         this.country2Line
-            .attr('d', line(this.country2Values.asKeyValueArray()));
+            .attr('d', line(this.country2Values.asKeyValueArray().filter(([,value]) => value !== null)));
     }
 }
 
