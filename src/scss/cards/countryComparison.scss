@@ -1,3 +1,12 @@
+#countrySelection {
+  display: flex;
+  justify-content: center;
+
+  .mdl-selectfield {
+    margin: 0 3em;
+  }
+}
+
 #countryComparison {
   text-align: center;
 

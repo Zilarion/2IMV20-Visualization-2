@@ -2,6 +2,7 @@
 
 const ComparisonTimeSeriesController = require('../controllers/ComparisonTimeSeriesController');
 const CountryComparisonController = require('../controllers/CountryComparisonController');
+const CountrySelectionController = require('../controllers/CountrySelectionController');
 const CountryValuesCollection = require('../collections/CountryValuesCollection');
 const FilterController = require('../controllers/FilterController');
 const Model = require('../core/Model');
@@ -55,6 +56,7 @@ class ComparisonView extends View {
         this.filterController = new FilterController(this, this.container.select('.filter'), {data: this.data, metrics: this.metrics});
         this.comparisonTimeSeriesController = new ComparisonTimeSeriesController(this, this.container.select('#countries-timeseries'), {country1Values: this.country1TimeSeries, country2Values: this.country2TimeSeries});
         this.timeLineController = new TimeLineController(this, this.container.select('.timeline'), {data: this.data});
+        this.countrySelectionController = new CountrySelectionController(this, this.container.select('#countrySelection'), {countries: this.countries, data: this.data});
         this.countryComparisonController = new CountryComparisonController(this, this.container.select('#countryComparison'), {metrics: this.metrics, country1Values: this.country1Values, country2Values: this.country2Values});
     }
 
