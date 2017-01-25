@@ -64,15 +64,26 @@ class ValueList extends ElementList {
 
         value
             .append('div')
-            .classed('metric__country1', true);
+            .classed('metric__country1__bar', true)
+            .append('span');
 
         value
             .append('div')
+            .classed('metric__country1__text', true);
+
+        value
+            .append('div')
+            .classed('metric__value-label', true)
             .text(([id,]) => id);
 
         value
             .append('div')
-            .classed('metric__country2', true);
+            .classed('metric__country2__text', true);
+
+        value
+            .append('div')
+            .classed('metric__country2__bar', true)
+            .append('span');
     }
 
     exit(elements) {
@@ -81,13 +92,43 @@ class ValueList extends ElementList {
     }
 
     updateElements(elements) {
-        elements
-            .select('.metric__country1')
-            .text(([id,]) => this.controller.country1Values.get(id));
+        const self = this;
+
+        const format = (value) => {
+            return value !== null ? d3.format('.4s')(value) : '-';
+        };
+
+        const percentage = (metric, value) => {
+            if (value === null) {
+                return 0;
+            }
+
+            return d3.format("%")
+                (d3.scale
+                [metric.scale]()
+                .domain([metric.minValue, metric.maxValue])
+                .range([0, 1])(value));
+        };
 
         elements
-            .select('.metric__country2')
-            .text(([id,]) => this.controller.country2Values.get(id));
+            .select('.metric__country1__bar span')
+            .style('width', function ([id,]) {
+                return percentage(d3.select(this.parentNode.parentNode.parentNode.parentNode).data()[0], self.controller.country1Values.get(id, null));
+            });
+
+        elements
+            .select('.metric__country1__text')
+            .text(([id,]) => format(this.controller.country1Values.get(id)));
+
+        elements
+            .select('.metric__country2__text')
+            .text(([id,]) => format(this.controller.country2Values.get(id)));
+
+        elements
+            .select('.metric__country2__bar span')
+            .style('width', function ([id,]) {
+                return percentage(d3.select(this.parentNode.parentNode.parentNode.parentNode).data()[0], self.controller.country1Values.get(id, null));
+            });
     }
 }
 

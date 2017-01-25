@@ -1,0 +1,51 @@
+#countryComparison {
+  text-align: center;
+
+  .metric__title {
+    color: $card-subtitle-color;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .metric__value {
+    display: flex;
+
+    .metric__country1__text, .metric__country2__text {
+      flex-basis: 5ex;
+      flex-grow: 1;
+      padding: 0 1em;
+    }
+
+    .metric__country1__text {
+       text-align: left;
+     }
+
+    .metric__country2__text {
+      text-align: right;
+    }
+
+    .metric__country1__bar span {
+      float: right;
+    }
+
+    .metric__country2__bar span {
+      float: left;
+    }
+
+    .metric__country1__bar, .metric__country2__bar {
+      flex-basis: 25ex;
+      flex-grow: 5;
+
+      span {
+        display: block;
+        height: 1em;
+        background-color: unquote("rgb(#{$color-primary})");
+      }
+    }
+
+    .metric__value-label {
+      flex-basis: 25ex;
+      flex-grow: 1;
+    }
+  }
+}
