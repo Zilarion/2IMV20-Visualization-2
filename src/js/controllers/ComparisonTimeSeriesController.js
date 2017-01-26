@@ -7,11 +7,17 @@ class ComparisonTimeSeriesController extends Controller {
     init() {
         this.svg = this.container.select('svg');
 
-        this.country1Line = this.svg.append('path');
-        this.country2Line = this.svg.append('path');
+        this.lines = this.svg
+            .append('g')
+            .classed('timeSeries__lines', true);
 
-        this.xAxis = this.svg.append("g").attr('class', "axis");
-        this.yAxis = this.svg.append("g").attr('class', "axis");
+        this.country1Line = this.lines.append('path');
+        this.country2Line = this.lines.append('path');
+
+        this.xAxis = this.svg.append('g')
+            .classed('timeSeries__axis', true);
+        this.yAxis = this.svg.append('g')
+            .classed('timeSeries__axis', true);
     }
 
     update() {
@@ -48,11 +54,9 @@ class ComparisonTimeSeriesController extends Controller {
             .y(([,value]) => y(value));
 
         this.country1Line
-            .attr('d', line(this.country1Values.asKeyValueArray().filter(([,value]) => value !== null)))
-            .attr("stroke", "#fc8d59");
+            .attr('d', line(this.country1Values.asKeyValueArray().filter(([,value]) => value !== null)));
         this.country2Line
-            .attr('d', line(this.country2Values.asKeyValueArray().filter(([,value]) => value !== null)))
-            .attr("stroke", "#91bfdb");
+            .attr('d', line(this.country2Values.asKeyValueArray().filter(([,value]) => value !== null)));
     }
 }
 
