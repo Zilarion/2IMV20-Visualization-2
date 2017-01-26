@@ -62,6 +62,7 @@ class ComparisonTimeSeriesController extends Controller {
                 .orient("left"));
 
         const line = d3.svg.line()
+            .interpolate('basis')
             .x(([year,]) => x(parseInt(year)))
             .y(([,value]) => y(value));
 
