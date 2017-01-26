@@ -146,8 +146,8 @@ class CountryComparisonController extends Controller {
     }
 
     update() {
-        this.metricList.update();
-        this.valueList.update();
+        // this.metricList.update();
+        // this.valueList.update();
     }
 }
 
