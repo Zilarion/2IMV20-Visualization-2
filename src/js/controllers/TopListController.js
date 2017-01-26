@@ -91,11 +91,21 @@ class CountryList extends ElementList {
         country
             .append('span')
             .classed('flag-icon', true)
-            .style('background-image', ([country,]) => `url('/img/flags/${this.controller.countries.get(country).alpha2Code.toLowerCase()}.svg')`);
+            .style('background-image', ([countryCode,]) => {
+                const country = this.controller.countries.get(countryCode);
+
+                return country && country.alpha2Code ?
+                    `url('/img/flags/${country.alpha2Code.toLowerCase()}.svg')`
+                    : 'none';
+            });
 
         country
             .append('span')
-            .text(([country,]) => this.controller.countries.get(country).name);
+            .text(([countryCode,]) => {
+                const country = this.controller.countries.get(countryCode);
+
+                return country ? country.name : '';
+            });
 
         const value = content
             .append('div')
@@ -122,10 +132,12 @@ class CountryList extends ElementList {
             return value !== null ? d3.format('.4s')(value) : '-';
         };
 
-        const percentage = (metric, value) => {
+        const percentage = (value) => {
             if (value === null) {
                 return 0;
             }
+
+            const metric = this.controller.view.metric;
 
             return d3.format("%")
             (d3.scale
@@ -135,12 +147,12 @@ class CountryList extends ElementList {
         };
 
         elements
-            .select('toplist__number')
+            .select('.toplist__number')
             .text(([,value]) => format(value));
 
         elements
-            .select('toplist__number')
-            .attr('width', ([,value]) => percentage(value));
+            .select('.toplist__meter span')
+            .style('width', ([,value]) => percentage(value));
     }
 }
 

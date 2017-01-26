@@ -44,8 +44,8 @@ class WorldView extends View {
         new WorldMapController(this, this.container.select('#worldmap'), {countries: this.countries, values: this.values});
         new TimeLineController(this, this.container.select('.timeline'), {data: this.data});
 
-        new TopListController(this, this.container.select('#highest'), {countries: this.countries, values: this.values, highest: true});
-        new TopListController(this, this.container.select('#lowest'), {countries: this.countries, values: this.values, highest: false});
+        this.highestController = new TopListController(this, this.container.select('#highest'), {countries: this.countries, values: this.values, highest: true});
+        this.lowestController = new TopListController(this, this.container.select('#lowest'), {countries: this.countries, values: this.values, highest: false});
     }
 
     show({metric, year, properties}) {

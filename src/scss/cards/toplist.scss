@@ -31,10 +31,12 @@
           display: block;
           flex-grow: 3;
 
-          .mdl-progress {
+          span {
             height: 14px;
             padding-top: 4px;
             width: 100%;
+            display: block;
+            background-color: unquote("rgb(#{$color-primary})");
           }
         }
       }

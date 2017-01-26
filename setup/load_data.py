@@ -97,17 +97,15 @@ def insertMetrics():
             )
 
 def insertTimeSeries():
+    countryCodes = set([country['id'] for country in getCountryData()['features']])
+
     categories = getMetricData()['metrics']
     metrics = {id: (key, properties) for category, metrics in categories.items() for key, metric in metrics.items() for id, properties in metric['series'].items()}
 
-    firstCountryFound = False
     for row in getTimeseriesData():
         countryCode = row['Country Code']
 
-        if countryCode == 'AFG':
-            firstCountryFound = True
-
-        if firstCountryFound:
+        if countryCode in countryCodes:
             indicatorCode = row['Indicator Code']
             if indicatorCode not in metrics:
                 continue
