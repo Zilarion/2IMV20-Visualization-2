@@ -20,4 +20,14 @@ svg.timeSeries {
     stroke-width: 1;
     shape-rendering: crispEdges;
   }
+
+  .legend {
+    fill: none;
+    stroke: white;
+  }
+  .legend text {
+    font-size: 20px;
+    stroke: none;
+    fill: white;
+  }
 }
