@@ -64,7 +64,7 @@ class CountriesView extends View {
         // );
         this.buttonController = new ButtonController(this, this.container.select('#add-metric'), {callback: this.addSeries});
 
-        new ParallelCoordinatePlotController(this, d3.select('.pcp'),  {values: this.values});
+        new ParallelCoordinatePlotController(this, d3.select('#pcp'),  {countries: this.countries, values: this.values});
         new CountryDistanceController(this, d3.select('#countryDistance'));
     }
 

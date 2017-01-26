@@ -9,6 +9,10 @@ class PCP extends ElementList {
         return this.controller.values.asKeyValueArray();
     }
 
+    countryName(code) {
+        return this.controller.countries.models[code];
+    }
+
     get metrics() {
         if (!this.data[0]) {
             return [];
@@ -34,8 +38,46 @@ class PCP extends ElementList {
     }
 
     enter(elements) {
+        let self = this;
+
         this.lines = elements
-            .append("path").attr("class", "countryLine");
+            .append("path")
+            .attr("class", "countryLine foreground")
+            // .on('mousemove', function (country) {
+            //     d3.select(this)
+            //         .each(function () {
+            //             this.parentNode.appendChild(this);
+            //         });
+            //
+            //     const mouse = d3.mouse(self.controller.container.node());
+            //     const countryData = self.countryName(country[0]);
+            //
+            //     self.controller.tooltip
+            //         .classed('is-active', true)
+            //         .style({
+            //             left: (mouse[0] - (self.controller.tooltip[0][0].offsetWidth / 2)) + 'px',
+            //             top: (mouse[1] - (self.controller.tooltip[0][0].offsetHeight - 60)) + 'px'
+            //         });
+            //
+            //     if (!countryData) {
+            //         return;
+            //     }
+            //     const backgroundImage = 'alpha2Code' in countryData ?
+            //         `url('/img/flags/${countryData.alpha2Code.toLowerCase()}.svg')` :
+            //         null;
+            //
+            //     self.controller.tooltip
+            //         .select('span.flag-icon')
+            //         .classed('hidden', !('alpha2Code' in countryData))
+            //         .style('background-image', backgroundImage);
+            //
+            //     self.controller.tooltip
+            //         .select('span.country')
+            //         .text(countryData.name);
+            // })
+            // .on('mouseout', () => {
+            //     self.controller.tooltip.classed('is-active', false);
+            // });
     }
 
     exit(elements) {
@@ -58,7 +100,7 @@ class PCP extends ElementList {
 
         this.x = d3.scale.ordinal()
             .domain(metrics.map(function(d) { order.push(d.id); return d.id; }))
-            .rangePoints([100, 1820]); // 100 padding
+            .rangeRoundPoints([100, 1820]); // 100 padding
         this.y = {};
 
 
@@ -143,7 +185,7 @@ class PCP extends ElementList {
         let actives = self.dimensions.filter(function(d) { return !self.y[d.id].brush.empty(); }),
             extents = actives.map(function(d) { return d.map(function(k) { return self.y[k.__data__.id].brush.extent(); })});
 
-        self.lines.style("opacity", function(d) {
+        self.lines.attr("class", function(d) {
             let result = actives.every(function(p, i) {
                 let length = p.length;
                 for (let j = 0; j < length; j++) {
@@ -155,7 +197,7 @@ class PCP extends ElementList {
                 }
                 return true;
             });
-            return result ? "1.0" : "0.1";
+            return result ? "countryLine foreground": "countryLine background";
         });
     }
 
@@ -174,10 +216,6 @@ class ParallelCoordinatePlotController extends Controller {
         this.tooltip
             .append('span')
             .classed('country', true);
-
-        this.tooltip
-            .append('span')
-            .classed('value', true);
 
         this.pcp = new PCP(
             this,
