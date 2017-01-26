@@ -3,7 +3,6 @@
 const CountryDistanceController = require('../controllers/CountryDistanceController');
 const ParallelCoordinatePlotController = require('../controllers/ParallelCoordinatePlotController');
 const MetricSeriesCollection = require('../collections/MetricSeriesCollection');
-const SelectController = require('../controllers/SelectController');
 const ButtonController = require('../controllers/ButtonController');
 const d3 = require('d3');
 
@@ -39,11 +38,8 @@ class CountriesView extends View {
 
     init() {
         this.data.year = DEFAULT_YEAR;
-        this.activeMetric = {};
         this.data.metrics = DEFAULT_METRICS;
         let self = this;
-
-        console.log(this.data.metrics);
 
         this.values = new MetricSeriesCollection(this.data);
 
