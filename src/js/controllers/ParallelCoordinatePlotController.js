@@ -17,7 +17,9 @@ class PCP extends ElementList {
         let metrics = [];
         let data = this.data[0][1] ? this.data[0][1] : [];
         for (let metricId in data) {
-            metrics.push(this.controller.view.metrics.get(data[metricId].metric));
+            let metric = this.controller.view.metrics.get(data[metricId].metric);
+            metric.id = metricId;
+            metrics.push(metric);
         }
         return metrics;
     }
@@ -52,21 +54,22 @@ class PCP extends ElementList {
 
         // Compute scales for the metrics
         let scales = [];
+        let order = [];
 
         this.x = d3.scale.ordinal()
-            .domain(metrics.map(function(d) { return d.metric; }))
+            .domain(metrics.map(function(d) { order.push(d.id); return d.id; }))
             .rangePoints([100, 1820]); // 100 padding
         this.y = {};
 
 
         Object.keys(metrics).forEach((key) => {
             let metric = metrics[key];
-            self.y[metric.metric] = d3.scale
+            self.y[metric.id] = d3.scale
                 [metric.scale]()
                 .domain([metric.minValue, metric.maxValue])
                 .range([1030, 50]); // 50 top, 50 bottom padding
 
-            scales.push({key: key, metric: metric.metric, name: metric.name});
+            scales.push({id: metric.id, key: key, metric: metric.metric, name: metric.name});
         });
 
         const axis = d3.svg.axis().orient("left");
@@ -76,11 +79,11 @@ class PCP extends ElementList {
             .enter()
             .append("g")
             .attr("class", "dimension")
-            .attr("transform", function(d) { return "translate(" + self.x(d.metric) + ")" });
+            .attr("transform", function(d) { return "translate(" + self.x(d.id) + ")" });
 
         dim.append("g")
             .attr("class", "axis")
-            .each(function(d) { d3.select(this).call(axis.scale(self.y[d.metric])); })
+            .each(function(d) { d3.select(this).call(axis.scale(self.y[d.id])); })
             .append("text")
             .style("text-anchor", "middle")
             .attr("y", 12)
@@ -91,8 +94,8 @@ class PCP extends ElementList {
             .attr("class", "brush")
             .each(function(d) {
                 d3.select(this)
-                    .call(self.y[d.metric].brush = d3.svg.brush().y(self.y[d.metric])
-                    .on("brushstart", function() { self.brushstart(); })
+                    .call(self.y[d.id].brush = d3.svg.brush().y(self.y[d.id])
+                    .on("brushstart", self.brushstart)
                     .on("brush", function() { self.brush(self) }));
             })
             .selectAll("rect")
@@ -101,8 +104,8 @@ class PCP extends ElementList {
 
         // Draw lines
         let lineFunction = d3.svg.line()
-            .x((d) => self.x(d.metric))
-            .y((d) => self.y[d.metric](d.value));
+            .x((d) => self.x(d.id))
+            .y((d) => self.y[d.id](d.value));
 
         elements
             .filter(function(d) {
@@ -118,10 +121,13 @@ class PCP extends ElementList {
             })
             .attr('d', (d) => {
                 let metric = d[1];
-                let result = lineFunction(Object.keys(metric).map(function (key) {
-                    return metric[key];
-                }));
-                return result;
+                let result = [];
+                for (let i = 0; i < order.length; i++) {
+                    let lineData = metric[order[i]];
+                    lineData.id = order[i];
+                    result.push(lineData);
+                }
+                return lineFunction(result);
             });
 
         this.dimensions = dim;
@@ -134,19 +140,19 @@ class PCP extends ElementList {
 
     // Handles a brush event, toggling the display of foreground lines.
     brush(self) {
-        let actives = self.dimensions.filter(function(d) { return !self.y[d.metric].brush.empty(); }),
-            extents = actives.map(function(d) { return self.y[d[0].__data__.metric].brush.extent(); });
+        let actives = self.dimensions.filter(function(d) { return !self.y[d.id].brush.empty(); }),
+            extents = actives.map(function(d) { return self.y[d[0].__data__.id].brush.extent(); });
 
-        self.lines.style("display", function(d) {
+        self.lines.style("opacity", function(d) {
             return actives.every(function(p, i) {
-                let metricName = p[0].__data__.metric;
+                let metricName = p[0].__data__.id;
                 for (let k in d[1]) {
-                    if (d[1][k].metric === metricName) {
+                    if (d[1][k].id === metricName) {
                         let value = d[1][k].value;
                         return extents[i][0] <= value && value <= extents[i][1];
                     }
                 }
-            }) ? null : "none";
+            }) ? "1.0" : "0.1";
         });
     }
 
