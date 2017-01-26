@@ -4,7 +4,19 @@ svg.timeSeries {
 
   path {
     fill: none;
-    stroke: grey;
+    stroke-width: 2;
+    shape-rendering: crispEdges;
+  }
+  .axis text {
+    fill: white;
+    stroke: none;
+    shape-rendering: crispEdges;
+  }
+
+  .axis line,
+  .axis path {
+    fill: none;
+    stroke: white;
     stroke-width: 1;
     shape-rendering: crispEdges;
   }

@@ -43,41 +43,41 @@ class PCP extends ElementList {
         this.lines = elements
             .append("path")
             .attr("class", "countryLine foreground")
-            // .on('mousemove', function (country) {
-            //     d3.select(this)
-            //         .each(function () {
-            //             this.parentNode.appendChild(this);
-            //         });
-            //
-            //     const mouse = d3.mouse(self.controller.container.node());
-            //     const countryData = self.countryName(country[0]);
-            //
-            //     self.controller.tooltip
-            //         .classed('is-active', true)
-            //         .style({
-            //             left: (mouse[0] - (self.controller.tooltip[0][0].offsetWidth / 2)) + 'px',
-            //             top: (mouse[1] - (self.controller.tooltip[0][0].offsetHeight - 60)) + 'px'
-            //         });
-            //
-            //     if (!countryData) {
-            //         return;
-            //     }
-            //     const backgroundImage = 'alpha2Code' in countryData ?
-            //         `url('/img/flags/${countryData.alpha2Code.toLowerCase()}.svg')` :
-            //         null;
-            //
-            //     self.controller.tooltip
-            //         .select('span.flag-icon')
-            //         .classed('hidden', !('alpha2Code' in countryData))
-            //         .style('background-image', backgroundImage);
-            //
-            //     self.controller.tooltip
-            //         .select('span.country')
-            //         .text(countryData.name);
-            // })
-            // .on('mouseout', () => {
-            //     self.controller.tooltip.classed('is-active', false);
-            // });
+            .on('mousemove', function (country) {
+                d3.select(this)
+                    .each(function () {
+                        this.parentNode.appendChild(this);
+                    });
+
+                const mouse = d3.mouse(self.controller.container.node());
+                const countryData = self.countryName(country[0]);
+
+                self.controller.tooltip
+                    .classed('is-active', true)
+                    .style({
+                        left: (mouse[0] - (self.controller.tooltip[0][0].offsetWidth / 2 - 5)) + 'px',
+                        top: (mouse[1] - (self.controller.tooltip[0][0].offsetHeight - 60)) + 'px'
+                    });
+
+                if (!countryData) {
+                    return;
+                }
+                const backgroundImage = 'alpha2Code' in countryData ?
+                    `url('/img/flags/${countryData.alpha2Code.toLowerCase()}.svg')` :
+                    null;
+
+                self.controller.tooltip
+                    .select('span.flag-icon')
+                    .classed('hidden', !('alpha2Code' in countryData))
+                    .style('background-image', backgroundImage);
+
+                self.controller.tooltip
+                    .select('span.country')
+                    .text(countryData.name);
+            })
+            .on('mouseout', () => {
+                self.controller.tooltip.classed('is-active', false);
+            });
     }
 
     exit(elements) {
