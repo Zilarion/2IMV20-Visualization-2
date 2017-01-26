@@ -4,6 +4,7 @@ const CountryDistanceController = require('../controllers/CountryDistanceControl
 const ParallelCoordinatePlotController = require('../controllers/ParallelCoordinatePlotController');
 const MetricSeriesCollection = require('../collections/MetricSeriesCollection');
 const SelectController = require('../controllers/SelectController');
+const ButtonController = require('../controllers/ButtonController');
 const d3 = require('d3');
 
 const View = require('../core/View');
@@ -38,18 +39,64 @@ class CountriesView extends View {
 
     init() {
         this.data.year = DEFAULT_YEAR;
-        this.setMetrics(DEFAULT_METRICS);
+        this.activeMetric = {};
+        this.data.metrics = DEFAULT_METRICS;
+        let self = this;
+
+        console.log(this.data.metrics);
 
         this.values = new MetricSeriesCollection(this.data);
 
-        this.selectController = new SelectController(this, this.container.select('.filter'), {data: this.data, metrics: this.metrics});
+        // this.metricController = new SelectController(
+        //     this,
+        //     this.container.select('#metricFilter'),
+        //     {
+        //         options: function() { return self.metrics.map((key, value) => {
+        //             console.log(self.metrics)
+        //         })},
+        //         metrics: this.setMetric
+        //     }
+        // );
+        // this.propertyController = new SelectController(
+        //     this,
+        //     this.container.select('#propertyFilter'),
+        //     {
+        //         data: this.data,
+        //         options: function() { return self.activeMetric ? self.activeMetric.properties : []; },
+        //         callback: this.setProperty
+        //     }
+        // );
+        this.buttonController = new ButtonController(this, this.container.select('#add-metric'), {callback: this.addSeries});
 
         new ParallelCoordinatePlotController(this, d3.select('.pcp'),  {values: this.values});
         new CountryDistanceController(this, d3.select('#countryDistance'));
     }
 
-    setMetrics(metrics) {
-        this.data.metrics = metrics;
+    setMetric(metric) {
+        let metricModel = this.metrics.models[metric];
+        this.activeMetric = metricModel;
+
+        if (metricModel.series) {
+            // console.log(this.activeSeries);
+            this.activeSeries = metricModel.id;
+        } else {
+            // TODO: add property support
+            // let properties = self.metrics.models[this.activeMetric].properties;
+        }
+    }
+
+    setProperty(property) {
+
+    }
+
+    addSeries(self) {
+        // console.log(self.activeSeries);
+        if (!self.activeSeries) {
+            return;
+        }
+        if (self.data.metrics.indexOf(self.activeSeries) > -1) {
+            self.data.metrics.push(self.activeSeries);
+        }
     }
 }
 

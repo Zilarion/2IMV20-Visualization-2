@@ -9,9 +9,11 @@ class Controller {
             .forEach(([key, value]) => {
                 this[key] = value;
 
-                value.on('change', () => {
-                    this.update();
-                });
+                if(value.on) {
+                    value.on('change', () => {
+                        this.update();
+                    });
+                }
             });
 
         this.init();
