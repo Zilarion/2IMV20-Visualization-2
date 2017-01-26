@@ -109,7 +109,7 @@ class PCP extends ElementList {
 
         elements
             .filter(function(d) {
-                var d = d[1];
+                d = d[1];
                 let result = true;
                 Object.keys(d).forEach((key) => {
                     const metric = d[key];
@@ -141,18 +141,21 @@ class PCP extends ElementList {
     // Handles a brush event, toggling the display of foreground lines.
     brush(self) {
         let actives = self.dimensions.filter(function(d) { return !self.y[d.id].brush.empty(); }),
-            extents = actives.map(function(d) { return self.y[d[0].__data__.id].brush.extent(); });
+            extents = actives.map(function(d) { return d.map(function(k) { return self.y[k.__data__.id].brush.extent(); })});
 
         self.lines.style("opacity", function(d) {
-            return actives.every(function(p, i) {
-                let metricName = p[0].__data__.id;
-                for (let k in d[1]) {
-                    if (d[1][k].id === metricName) {
-                        let value = d[1][k].value;
-                        return extents[i][0] <= value && value <= extents[i][1];
+            let result = actives.every(function(p, i) {
+                let length = p.length;
+                for (let j = 0; j < length; j++) {
+                    let metricName = p[j].__data__.id;
+                    let value = d[1][metricName].value;
+                    if (value === undefined || !(extents[i][j][0] <= value && value <= extents[i][j][1])) {
+                        return false;
                     }
                 }
-            }) ? "1.0" : "0.1";
+                return true;
+            });
+            return result ? "1.0" : "0.1";
         });
     }
 
