@@ -18,6 +18,18 @@ class ComparisonTimeSeriesController extends Controller {
             .classed('timeSeries__axis', true);
         this.yAxis = this.svg.append('g')
             .classed('timeSeries__axis', true);
+
+        this.tooltip = this.container
+            .append('div')
+            .classed('mdl-tooltip', true);
+
+        this.tooltip
+            .append('span')
+            .classed('flag-icon', true);
+
+        this.tooltip
+            .append('span')
+            .classed('country', true);
     }
 
     update() {
@@ -57,6 +69,45 @@ class ComparisonTimeSeriesController extends Controller {
             .attr('d', line(this.country1Values.asKeyValueArray().filter(([,value]) => value !== null)));
         this.country2Line
             .attr('d', line(this.country2Values.asKeyValueArray().filter(([,value]) => value !== null)));
+
+        this.attachTooltip(this.country1Line, 'country1');
+        this.attachTooltip(this.country2Line, 'country2');
+    }
+
+    attachTooltip(element, d) {
+        element.on('mousemove', () => {
+            const country = this.view.countries.get(this.data[d].code);
+
+            if (!country) {
+                return;
+            }
+
+            const mouse = d3.mouse(this.container.node());
+
+            this.tooltip
+                .classed('is-active', true)
+                .style({
+                    left: (mouse[0] - (this.tooltip[0][0].offsetWidth / 2)) + 'px',
+                    top: (mouse[1] - (this.tooltip[0][0].offsetHeight + 10)) + 'px'
+                });
+
+            const backgroundImage = 'alpha2Code' in country ?
+                `url('/img/flags/${country.alpha2Code.toLowerCase()}.svg')` :
+                null;
+
+            this.tooltip
+                .select('span.flag-icon')
+                .classed('hidden', !('alpha2Code' in country))
+                .style('background-image', backgroundImage);
+
+            this.tooltip
+                .select('span.country')
+                .text(country.name);
+        });
+
+        element.on('mouseout', () => {
+            this.tooltip.classed('is-active', false);
+        });
     }
 }
 
