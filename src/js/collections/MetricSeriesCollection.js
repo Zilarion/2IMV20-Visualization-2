@@ -11,13 +11,12 @@ class MetricSeriesCollection extends Collection {
                 this.models = {};
                 metrics.forEach((timeSeries) => {
                     this.models[timeSeries.countryCode] = this.models[timeSeries.countryCode] || {};
-                    this.models[timeSeries.countryCode][timeSeries.id] = {country: timeSeries.country, value: timeSeries.values[this.settings.year], metric: timeSeries.metric};
+                    this.models[timeSeries.countryCode][timeSeries.id] = {value: timeSeries.values[this.settings.year], metric: timeSeries.metric};
                 });
             });
     }
     getMetricSeries() {
         // TODO: check if metrics the same, then dont reload
-
         return TimeSeriesDAO
             .getAllByMetrics(this.settings.metrics)
             .then(metricSeries => {

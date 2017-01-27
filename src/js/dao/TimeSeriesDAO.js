@@ -38,7 +38,7 @@ class TimeSeriesDAO {
             query: {
                 bool: {
                     should: metrics.map(metric => {
-                        return {term: {id: metric.toLowerCase()}};
+                        return {term: {id: metric.id.toLowerCase()}};
                     }),
                     minimum_should_match: 1,
                 }

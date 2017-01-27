@@ -18,18 +18,21 @@ class PCP extends ElementList {
             return [];
         }
 
+        let activeMetrics = this.controller.data.get("metrics");
+
         let metrics = [];
-        let data = this.data[0][1] ? this.data[0][1] : [];
-        for (let metricId in data) {
-            let metric = this.controller.view.metrics.get(data[metricId].metric);
-            metric.id = metricId;
+        for (let metricId in activeMetrics) {
+            let metric = this.controller.view.metrics.get(activeMetrics[metricId].name);
+            metric.id = activeMetrics[metricId].id;
             metrics.push(metric);
         }
         return metrics;
     }
 
     get keyMapping() {
-        return ([countryCode,]) => countryCode;
+        return (d) => {
+            return d[0];
+        }
     }
 
     select() {
@@ -89,9 +92,10 @@ class PCP extends ElementList {
     }
 
     updateElements(elements) {
+
         const self = this;
         // Update axes
-        const metrics = this.metrics;
+        let metrics = this.metrics;
 
         if (!metrics || metrics.length == 0) {
             return;
@@ -106,7 +110,6 @@ class PCP extends ElementList {
             .rangeRoundPoints([100, 1820]); // 100 padding
         this.y = {};
 
-
         Object.keys(metrics).forEach((key) => {
             let metric = metrics[key];
             self.y[metric.id] = d3.scale
@@ -114,19 +117,24 @@ class PCP extends ElementList {
                 .domain([metric.minValue, metric.maxValue])
                 .range([1030, 50]); // 50 top, 50 bottom padding
 
-            scales.push({id: metric.id, key: key, metric: metric.metric, name: metric.name});
+            scales.push({id: metric.id, metric: metric.metric, name: metric.name});
         });
 
         const axis = d3.svg.axis().orient("left");
 
-        let dim = this.container.selectAll(".dimensions")
-            .data(scales)
+        let dims = this.container.selectAll(".dimension")
+            .data(scales, function(d) {
+                return d.id;
+            });
+
+        dims.exit().remove();
+
+        let dim = dims
             .enter()
             .append("g")
-            .attr("class", "dimension")
-            .attr("transform", function(d) { return "translate(" + self.x(d.id) + ")" });
+            .attr("class", "dimension");
 
-        dim.append("g")
+        dims.append("g")
             .attr("class", "axis")
             .each(function(d) { d3.select(this).call(axis.scale(self.y[d.id])); })
             .append("text")
@@ -134,18 +142,20 @@ class PCP extends ElementList {
             .attr("y", 12)
             .text(function(d) { return d.name || "-"; });
 
-
-        dim.append("g")
+        dims.append("g")
             .attr("class", "brush")
             .each(function(d) {
                 d3.select(this)
                     .call(self.y[d.id].brush = d3.svg.brush().y(self.y[d.id])
-                    .on("brushstart", self.brushstart)
-                    .on("brush", function() { self.brush(self) }));
+                        .on("brushstart", self.brushstart)
+                        .on("brush", function() { self.brush(self) }));
             })
             .selectAll("rect")
             .attr("x", -8)
             .attr("width", 16);
+
+        dims
+            .attr("transform", function(d) { return "translate(" + self.x(d.id) + ")" });
 
         // Draw lines
         let lineFunction = d3.svg.line()
@@ -156,12 +166,12 @@ class PCP extends ElementList {
             .filter(function(d) {
                 d = d[1];
                 let result = true;
-                Object.keys(d).forEach((key) => {
-                    const metric = d[key];
-                    if (metric.value === null || metric.value === undefined) {
+                for (let i = 0; i < order.length; i++) {
+                    let data = d[order[i]];
+                    if (data === undefined || data.value === null || data.value === undefined) {
                         result = false;
                     }
-                });
+                }
                 return result;
             })
             .attr('d', (d) => {

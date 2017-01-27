@@ -4,13 +4,16 @@ const CountryDistanceController = require('../controllers/CountryDistanceControl
 const ParallelCoordinatePlotController = require('../controllers/ParallelCoordinatePlotController');
 const MetricSeriesCollection = require('../collections/MetricSeriesCollection');
 const ButtonController = require('../controllers/ButtonController');
+const FilterController = require('../controllers/FilterController');
+const Model = require('../core/Model');
 const d3 = require('d3');
 
 const View = require('../core/View');
 
 
 const DEFAULT_YEAR = 2015;
-const DEFAULT_METRICS = ['SE.ADT.LITR.MA.ZS', 'NY.GDP.MKTP.CD', 'FP.CPI.TOTL.ZG'];
+const DEFAULT_METRICS = [];// ['SE.ADT.LITR.MA.ZS', 'NY.GDP.MKTP.CD', 'FP.CPI.TOTL.ZG'];
+const DEFAULT_METRIC = 'inflation';
 
 class CountriesView extends View {
     get name() {
@@ -37,61 +40,62 @@ class CountriesView extends View {
     }
 
     init() {
+        this.setMetric(DEFAULT_METRIC);
         this.data.year = DEFAULT_YEAR;
         this.data.metrics = DEFAULT_METRICS;
-        let self = this;
 
         this.values = new MetricSeriesCollection(this.data);
 
-        // this.metricController = new SelectController(
-        //     this,
-        //     this.container.select('#metricFilter'),
-        //     {
-        //         options: function() { return self.metrics.map((key, value) => {
-        //             console.log(self.metrics)
-        //         })},
-        //         metrics: this.setMetric
-        //     }
-        // );
-        // this.propertyController = new SelectController(
-        //     this,
-        //     this.container.select('#propertyFilter'),
-        //     {
-        //         data: this.data,
-        //         options: function() { return self.activeMetric ? self.activeMetric.properties : []; },
-        //         callback: this.setProperty
-        //     }
-        // );
+        this.filterController = new FilterController(this, this.container.select('.filter'), {data: this.data, metrics: this.metrics});
         this.buttonController = new ButtonController(this, this.container.select('#add-metric'), {callback: this.addSeries});
 
-        new ParallelCoordinatePlotController(this, d3.select('#pcp'),  {countries: this.countries, values: this.values});
+        this.pcpController = new ParallelCoordinatePlotController(this, d3.select('#pcp'),  {data: this.data, countries: this.countries, values: this.values});
         new CountryDistanceController(this, d3.select('#countryDistance'));
     }
 
     setMetric(metric) {
-        let metricModel = this.metrics.models[metric];
-        this.activeMetric = metricModel;
+        this.data.metric = metric;
 
-        if (metricModel.series) {
-            // console.log(this.activeSeries);
-            this.activeSeries = metricModel.id;
-        } else {
-            // TODO: add property support
-            // let properties = self.metrics.models[this.activeMetric].properties;
+        let propertyValues = {};
+
+        if (this.metric) {
+            let properties = this.metric.properties;
+
+            Object.keys(properties).forEach((property) => {
+                propertyValues[property] = properties[property].defaultValue;
+            });
         }
-    }
 
-    setProperty(property) {
-
+        this.data.properties = Model.create(propertyValues);
     }
 
     addSeries(self) {
-        // console.log(self.activeSeries);
-        if (!self.activeSeries) {
-            return;
-        }
-        if (self.data.metrics.indexOf(self.activeSeries) > -1) {
-            self.data.metrics.push(self.activeSeries);
+        let metricName = self.data.metric;
+        let properties = self.data.properties;
+        let keys = properties.ownKeys();
+        // console.log(metric, properties.ownKeys());
+
+        let metric = self.metrics.models[metricName];
+
+        // console.log(metric);
+
+        if(keys.length === 0) {
+            // Use first series, no properties for this metric
+            Object.keys(metric.series).forEach((key) => {
+                // Add all the series (should be 1).
+                let newmetrics = self.data.metrics;
+
+                for (let i in newmetrics) {
+                    let met = newmetrics[i];
+                    if (met.id === key) {
+                        return;
+                    }
+                }
+                newmetrics.push({name: metricName, id: key});
+                self.data.metrics = newmetrics;
+            })
+        } else {
+            // Use active property
         }
     }
 }
