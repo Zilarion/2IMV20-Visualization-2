@@ -4,16 +4,15 @@ const es = require('../connections/ElasticSearch');
 
 class TimeSeriesDAO {
     static getAllByMetric(metric, properties) {
-        return es.queryAll({
+        return es.queryAll('timeSeries', {
             query: {
                 bool: {
-                    filter: Object.entries(properties)
-                        .map(([property, value]) => {
-                            return {term: {[property]: value}};
+                    filter: Reflect.ownKeys(properties)
+                        .map((property) => {
+                            return {term: {[property]: properties[property]}};
                         })
                         .concat([
-                            {term: {metric: metric.toLowerCase()}},
-                            {type: {value: 'timeSeries'}}
+                            {term: {metric: metric.toLowerCase()}}
                         ])
                 }
             },
@@ -22,12 +21,11 @@ class TimeSeriesDAO {
     }
 
     static getAllByCountry(country) {
-        return es.queryAll({
+        return es.queryAll('timeSeries', {
             query: {
                 bool: {
                     filter: [
-                        {term: {countryCode: country.toLowerCase()}},
-                        {type: {value: 'timeSeries'}}
+                        {term: {countryCode: country.toLowerCase()}}
                     ]
                 }
             },
@@ -36,12 +34,9 @@ class TimeSeriesDAO {
     }
 
     static getAllByMetrics(metrics) {
-        return es.queryAll({
+        return es.queryAll('timeSeries', {
             query: {
                 bool: {
-                    must: {
-                        type: {value: 'timeSeries'}
-                    },
                     should: metrics.map(metric => {
                         return {term: {id: metric.toLowerCase()}};
                     }),
@@ -53,17 +48,16 @@ class TimeSeriesDAO {
     }
 
     static getByMetricAndCountry(metric, properties, country) {
-        return es.query({
+        return es.query('timeSeries', {
             query: {
                 bool: {
-                    filter: Object.entries(properties)
-                        .map(([property, value]) => {
-                            return {term: {[property]: value}};
+                    filter: Reflect.ownKeys(properties)
+                        .map((property) => {
+                            return {term: {[property]: properties[property]}};
                         })
                         .concat([
                             {term: {metric: metric.toLowerCase()}},
                             {term: {countryCode: country.toLowerCase()}},
-                            {type: {value: 'timeSeries'}}
                         ])
                 }
             },

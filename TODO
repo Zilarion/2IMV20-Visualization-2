@@ -1,5 +1,4 @@
 WORLDMAP
- - properties [RIK]
  - doorlinken [RIK]
  - axis [RUUD]
  - high/low in world map [RIK]
@@ -13,6 +12,8 @@ DATA:
 COUNTRY COMPARISON
  - kleuren [RUUD]
  - legenda bolletje naar lijn [RUUD]
+ - expected number error [RIK]
+ - properties tonen ipv id
 
 COUNTRIES
  - similarity graph [RIK]

@@ -3,21 +3,21 @@
 const XHRPromise = require('xhr-promise');
 
 class ElasticSearch {
-    static query(q) {
+    static query(type, q) {
         return this
-            .queryAll(q)
+            .queryAll(type, q)
             .then((results) => {
                 return results[0];
             });
     }
 
-    static queryAll(q) {
+    static queryAll(type, q) {
         var xhrPromise = new XHRPromise();
 
         return xhrPromise
             .send({
                 method: 'POST',
-                url: '/data/_search',
+                url: `/data/${type}/_search`,
                 data: JSON.stringify(q)
             })
             .then(response => {

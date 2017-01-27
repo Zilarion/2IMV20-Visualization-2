@@ -12,7 +12,7 @@ class TimeSeriesCollection extends Collection {
                 this.settings.country.code
             )
             .then(timeSeries => {
-                this.models = timeSeries.values;
+                this.models = timeSeries ? timeSeries.values : [];
             });
     }
 }

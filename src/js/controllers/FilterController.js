@@ -20,9 +20,13 @@ class FieldList extends ElementList {
         };
 
         const metric = this.controller.view.metric;
+        const properties = this.controller.data.properties
 
-        const propertyFields = Object.entries(this.controller.data.properties)
-            .map(([property, value]) => {
+        const propertyFields = Reflect.ownKeys(properties)
+            .filter(property => property in metric.properties)
+            .map(property => {
+                const value = properties[property];
+
                 return {
                     field: property,
                     name: metric.properties[property].name,

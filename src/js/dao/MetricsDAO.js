@@ -4,16 +4,8 @@ const es = require('../connections/ElasticSearch');
 
 class MetricsDAO {
     static getAll() {
-        return es.queryAll({
-            query: {
-                bool: {
-                    filter: {
-                        type: {
-                            value: 'metric'
-                        }
-                    }
-                }
-            },
+        return es.queryAll('metric', {
+            query: {},
             size: 1000
         });
     }
