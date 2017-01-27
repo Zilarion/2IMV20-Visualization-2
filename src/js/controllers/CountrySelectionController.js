@@ -97,8 +97,8 @@ class CountrySelectionController extends Controller {
         this.country2OptionList.update();
         this.country2Select.select('select').property('value', this.data.country2.code);
 
-        this.field1.refreshOptions();
-        this.field2.refreshOptions();
+        this.field1.update_();
+        this.field2.update_();
     }
 }
 

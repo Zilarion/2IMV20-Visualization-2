@@ -103,6 +103,8 @@ MaterialSelectfield.prototype.update_ = function () {
                 this.element_.classList.add(this.CssClasses_.IS_DIRTY);
                 this.listOptionBox_.querySelector('.' + this.CssClasses_.IS_SELECTED).classList.remove(this.CssClasses_.IS_SELECTED);
                 this.listOptionBox_.querySelectorAll('LI')[i].classList.add(this.CssClasses_.IS_SELECTED);
+
+                this.selectedOptionValue_.textContent = item.textContent;
             }
         }
     }
