@@ -112,12 +112,16 @@ class PCP extends ElementList {
 
         Object.keys(metrics).forEach((key) => {
             let metric = metrics[key];
-            self.y[metric.id] = d3.scale
-                [metric.scale]()
+            self.y[metric.id] = Object.entries(metric.scaleArguments)
+                .map(([key, value]) => x => x[key](value))
+                .reduce((b, a) => (x) => b(a(x)), x => x)(
+                    d3.scale
+                        [metric.scale]()
+                )
                 .domain([metric.minValue, metric.maxValue])
                 .range([1030, 50]); // 50 top, 50 bottom padding
 
-            scales.push({id: metric.id, metric: metric.metric, name: metric.name});
+            scales.push({id: metric.id, metric: metric.metric, name: metric.name, format: metric.format});
         });
 
         const axis = d3.svg.axis().orient("left");
@@ -136,7 +140,13 @@ class PCP extends ElementList {
 
         dims.append("g")
             .attr("class", "axis")
-            .each(function(d) { d3.select(this).call(axis.scale(self.y[d.id])); })
+            .each(function(d) {
+                d3.select(this)
+                    .call(
+                        axis.scale(self.y[d.id])
+                            .tickFormat(d3.format(d.format))
+                    )
+            })
             .append("text")
             .style("text-anchor", "middle")
             .attr("y", 12)

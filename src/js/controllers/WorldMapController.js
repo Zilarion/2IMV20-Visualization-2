@@ -98,8 +98,12 @@ class PathList extends ElementList {
             return;
         }
 
-        const color = d3.scale
-            [metric.scale]()
+        const color = Object.entries(metric.scaleArguments)
+            .map(([key, value]) => x => x[key](value))
+            .reduce((b, a) => (x) => b(a(x)), x => x)(
+                d3.scale
+                    [metric.scale]()
+            )
             .domain([metric.minValue, metric.maxValue])
             .range([d3.rgb("#FF0000"), d3.rgb('#00FF00')])
             .interpolate(d3.interpolateHcl);

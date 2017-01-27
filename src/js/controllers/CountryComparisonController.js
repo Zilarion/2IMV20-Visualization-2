@@ -103,11 +103,16 @@ class ValueList extends ElementList {
                 return 0;
             }
 
-            return d3.format("%")
-                (d3.scale
-                [metric.scale]()
+            return d3.format("%")(
+                Object.entries(metric.scaleArguments)
+                    .map(([key, value]) => x => x[key](value))
+                    .reduce((b, a) => (x) => b(a(x)), x => x)(
+                        d3.scale
+                            [metric.scale]()
+                    )
                 .domain([metric.minValue, metric.maxValue])
-                .range([0, 1])(value));
+                .range([0, 1])(value)
+            );
         };
 
         elements
