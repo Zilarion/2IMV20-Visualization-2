@@ -40,15 +40,16 @@ metrics:
         NY.GDP.PCAP.CD: {}
     houseOwnership:
       name: House ownership
+      minValue: 0
       maxValue: 1
-        scale: linear
-        scaleArguments: {}
-        format: '0.1%'
-        series:
-          SG.OWN.HSAJ.FE.ZS:
-            gender: female
-          SG.OWN.HSAJ.MA.ZS:
-            gender: male
+      scale: linear
+      scaleArguments: {}
+      format: '0.1%'
+      series:
+        SG.OWN.HSAJ.FE.ZS:
+          gender: female
+        SG.OWN.HSAJ.MA.ZS:
+          gender: male
 
   education:
     literacyRate:
@@ -182,16 +183,16 @@ metrics:
           causeOfDeath: nonCommunicableDisease
     smoking:
       name: Smoking
-        minValue: 0
-        maxValue: 1
-        scale: linear
-        scaleArguments: {}
-        format: '.0f'
-        series:
-          SH.PRV.SMOK.FE:
-            gender: female
-          SH.PRV.SMOK.MA:
-            gender: female
+      minValue: 0
+      maxValue: 1
+      scale: linear
+      scaleArguments: {}
+      format: '.0f'
+      series:
+        SH.PRV.SMOK.FE:
+          gender: female
+        SH.PRV.SMOK.MA:
+          gender: female
     infantMortalityRate:
       name: Infant mortality rate
       minValue: 0
