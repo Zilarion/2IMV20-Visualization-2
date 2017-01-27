@@ -12,12 +12,10 @@
 
   path {
     filter: url('#country_default');
-    z-index: 1;
-  }
 
-  path:hover {
-    filter: url('#country_hover');
-    z-index: 2;
+    &:hover, &.hovered {
+      filter: url('#country_hover');
+    }
   }
 
   .mdl-tooltip {

@@ -120,6 +120,19 @@ class CountryList extends ElementList {
             .append('span')
             .classed('toplist__meter', true)
             .append('span');
+
+        li.on('mouseover', ([countryCode,]) => {
+            this.controller.view.worldMapController.container.select(`[data-country="${countryCode}"]`)
+                .classed('hovered', true)
+                .each(function () {
+                    this.parentNode.appendChild(this);
+                });
+        });
+
+        li.on('mouseout', ([countryCode,]) => {
+            this.controller.view.worldMapController.container.select(`[data-country="${countryCode}"]`)
+                .classed('hovered', false);
+        });
     }
 
     exit(elements) {

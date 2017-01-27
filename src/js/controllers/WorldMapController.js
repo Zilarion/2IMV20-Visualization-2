@@ -23,6 +23,7 @@ class PathList extends ElementList {
 
         elements
             .append('path')
+            .attr('data-country', ({code}) => code)
             .on('mousemove', function (country) {
                 d3.select(this)
                     .each(function () {

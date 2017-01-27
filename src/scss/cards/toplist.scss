@@ -12,6 +12,11 @@
 
   li.toplist__position {
     padding: 0 8px;
+    transition: all 1s;
+
+    &:hover {
+      background-color: unquote("rgba(#{$color-white}, 0.1)");
+    }
 
     ul {
       width: 100%;
@@ -41,6 +46,20 @@
               display: block;
               background-color: unquote("rgb(#{$color-primary})");
             }
+          }
+        }
+
+        .flag-icon, .toplist__meter span {
+          transition: all 1s;
+        }
+
+        &:hover {
+          .flag-icon {
+            margin-left: 10px;
+          }
+
+          .toplist__value .toplist__meter span {
+            background-color: unquote("rgb(#{$color-secondary})");
           }
         }
       }
