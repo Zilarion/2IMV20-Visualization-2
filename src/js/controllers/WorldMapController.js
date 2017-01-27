@@ -121,6 +121,8 @@ class PathList extends ElementList {
 
 class WorldMapController extends Controller {
     init() {
+        let height = 1080;
+        let padding = 100;
         this.tooltip = this.container
             .append('div')
             .classed('mdl-tooltip', true);
@@ -145,7 +147,7 @@ class WorldMapController extends Controller {
         this.legend =this.container.select('svg')
             .append('g')
             .attr("class", "legend")
-            .attr("transform", "translate(20,20)");
+            .attr("transform", `translate(0, ${height - padding - 25*20})`);
     }
 
     update() {
