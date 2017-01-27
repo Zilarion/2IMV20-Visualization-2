@@ -3,10 +3,8 @@
 const ComparisonView = require('../views/ComparisonView');
 const CountriesCollection = require('../collections/CountriesCollection');
 const CountriesView = require('../views/CountriesView');
-const CountryView = require('../views/CountryView');
 const d3 = require('d3');
 const MetricsCollection = require('../collections/MetricsCollection');
-const MetricsView = require('../views/MetricsView');
 const Model = require('./Model');
 const NavigationController = require('../controllers/NavigationController');
 const Navigo = require('navigo');
@@ -22,8 +20,6 @@ class App {
         this.views = {
             comparisonView: new ComparisonView(this, d3.select('#comparisonview')),
             countriesView: new CountriesView(this, d3.select('#countriesview')),
-            countryView: new CountryView(this, d3.select('#countryview')),
-            metricsView: new MetricsView(this, d3.select('#metricsview')),
             worldView: new WorldView(this, d3.select('#worldview'))
         };
 
