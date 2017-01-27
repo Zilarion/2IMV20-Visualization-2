@@ -121,6 +121,15 @@ class CountryList extends ElementList {
             .classed('toplist__meter', true)
             .append('span');
 
+        li.on('click', ([countryCode,]) => {
+            const view = this.controller.view;
+            view.app.show('comparisonView', {
+                country1: countryCode,
+                metric: view.data.metric,
+                properties: view.data.properties
+            });
+        });
+
         li.on('mouseover', ([countryCode,]) => {
             this.controller.view.worldMapController.container.select(`[data-country="${countryCode}"]`)
                 .classed('hovered', true)

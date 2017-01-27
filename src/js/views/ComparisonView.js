@@ -60,6 +60,28 @@ class ComparisonView extends View {
         this.countryComparisonController = new CountryComparisonController(this, this.container.select('#countryComparison'), {metrics: this.metrics, country1Values: this.country1Values, country2Values: this.country2Values});
     }
 
+    show({country1, country2, metric, year, properties}) {
+        if (country1) {
+            this.data.country1.code = country1;
+        }
+
+        if (country2) {
+            this.data.country2.code = country2;
+        }
+
+        if (metric) {
+            this.setMetric(metric);
+        }
+
+        if (year) {
+            this.data.year = year;
+        }
+
+        if (properties) {
+            this.data.properties = properties;
+        }
+    }
+
     setMetric(metric) {
         this.data.metric = metric;
 

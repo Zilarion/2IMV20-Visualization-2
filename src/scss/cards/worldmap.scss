@@ -12,6 +12,7 @@
 
   path {
     filter: url('#country_default');
+    cursor: pointer;
 
     &:hover, &.hovered {
       filter: url('#country_hover');
