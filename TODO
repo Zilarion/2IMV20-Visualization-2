@@ -1,0 +1,30 @@
+WORLDMAP
+ - properties [RIK]
+ - doorlinken [RIK]
+ - axis [RUUD]
+ - high/low in world map [RIK]
+ - hoveren high-low tonen in worldmap [RIK]
+
+DATA:
+ - inflation schaal
+ - meer data
+ - format meegeven
+
+COUNTRY COMPARISON
+ - y as labels
+ - countries soms niet getoond [RIK]
+ - bars zijn altijd hetzelfde [RIK]
+ - kleuren [RUUD]
+ - legenda bolletje naar lijn [RUUD]
+
+COUNTRIES
+ - similarity graph [RIK]
+ - add/remove [RUUD]
+ - styling [RUUD]
+ - doorklikken [RIK]
+
+METRICS
+ - weghalen [RIK]
+
+COUNTRY
+ - weghalen [RIK]
