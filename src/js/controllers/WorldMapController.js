@@ -103,7 +103,6 @@ class PathList extends ElementList {
             });
 
         const legendLinear = d3.legend.color()
-            .title("Legend")
             .shapeWidth(30)
             .shapeHeight(25)
             .cells(20)
