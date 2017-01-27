@@ -91,6 +91,8 @@ def insertMetrics():
                     'minValue': float(metric['minValue']),
                     'maxValue': float(metric['maxValue']),
                     'scale': metric['scale'],
+                    'scaleArguments': metric['scaleArguments'],
+                    'format': metric['format'],
                     'properties': {property: metricData['properties'][property] for property in properties},
                     'series': metric['series']
                 }
@@ -111,11 +113,13 @@ def insertTimeSeries():
                 continue
             metric, properties = metrics[indicatorCode]
 
+            valueDivider = 100.0 if metric in ['inflation', 'GDPGrowth', 'literacyRate'] else 1.0
+
             doc = {
                 'id': indicatorCode,
                 'countryCode': countryCode,
                 'metric': metric,
-                'values': {year: float(row[str(year)]) for year in range(1960, 2016) if row[str(year)] != ''}
+                'values': {year: float(row[str(year)])/valueDivider for year in range(1960, 2016) if row[str(year)] != ''}
             }
 
             for property, propertyValue in properties.items():

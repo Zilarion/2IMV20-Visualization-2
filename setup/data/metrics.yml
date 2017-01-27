@@ -2,9 +2,12 @@ metrics:
   economy:
     inflation:
       name: Inflation
-      minValue: -50
-      maxValue: 50
-      scale: sqrt
+      minValue: -1
+      maxValue: 1
+      scale: pow
+      scaleArguments:
+        exponent: 0.25
+      format: '0.1%'
       series:
         FP.CPI.TOTL.ZG: {}
     GDP:
@@ -12,6 +15,8 @@ metrics:
       minValue: 8e+6
       maxValue: 2e+13
       scale: log
+      scaleArguments: {}
+      format: '$.4s'
       series:
         NY.GDP.MKTP.CD: {}
     GDPGrowth:
@@ -19,6 +24,9 @@ metrics:
       minValue: -70
       maxValue: 190
       scale: sqrt
+      scaleArguments:
+        exponent: 0.25
+      format: '0.1%'
       series:
         NY.GDP.MKTP.KD.ZG: {}
     GDPPerCapita:
@@ -26,6 +34,8 @@ metrics:
       minValue: 3e+1
       maxValue: 2e+5
       scale: log
+      scaleArguments: {}
+      format: '$0.2s'
       series:
         NY.GDP.PCAP.CD: {}
 
@@ -33,8 +43,10 @@ metrics:
     literacyRate:
       name: Literacy rate
       minValue: 0
-      maxValue: 100
+      maxValue: 1
       scale: linear
+      scaleArguments: {}
+      format: '0.1%'
       series:
         SE.ADT.1524.LT.FE.ZS:
           gender: female
@@ -53,8 +65,10 @@ metrics:
     lifeExpectancy:
       name: Life expectancy at birth
       minValue: 0
-      maxValue: 100
+      maxValue: 1
       scale: linear
+      scaleArguments: {}
+      format: '.0f'
       series:
         SP.DYN.LE00.MA.IN:
           gender: male

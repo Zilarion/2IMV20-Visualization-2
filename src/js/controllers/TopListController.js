@@ -151,7 +151,9 @@ class CountryList extends ElementList {
 
     updateElements(elements) {
         const format = (value) => {
-            return value !== null ? d3.format('.4s')(value) : '-';
+            const metric = this.controller.view.metric;
+            
+            return value !== null ? d3.format(metric.format)(value) : '-';
         };
 
         const percentage = (value) => {

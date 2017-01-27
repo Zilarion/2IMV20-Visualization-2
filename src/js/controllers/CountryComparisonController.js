@@ -94,8 +94,8 @@ class ValueList extends ElementList {
     updateElements(elements) {
         const self = this;
 
-        const format = (value) => {
-            return value !== null ? d3.format('.4s')(value) : '-';
+        const format = (metric, value) => {
+            return value !== null ? d3.format(metric.format)(value) : '-';
         };
 
         const percentage = (metric, value) => {
@@ -118,11 +118,14 @@ class ValueList extends ElementList {
 
         elements
             .select('.metric__country1__text')
-            .text(([id,]) => format(this.controller.country1Values.get(id)));
-
+            .text(function ([id,]) {
+                return format(d3.select(this.parentNode.parentNode.parentNode).data()[0], self.controller.country1Values.get(id))
+            });
         elements
             .select('.metric__country2__text')
-            .text(([id,]) => format(this.controller.country2Values.get(id)));
+            .text(function ([id,]) {
+                return format(d3.select(this.parentNode.parentNode.parentNode).data()[0], self.controller.country2Values.get(id))
+            });
 
         elements
             .select('.metric__country2__bar span')

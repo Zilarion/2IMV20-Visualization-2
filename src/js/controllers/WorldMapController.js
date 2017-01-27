@@ -57,7 +57,7 @@ class PathList extends ElementList {
                 self.controller.tooltip
                     .select('span.value')
                     .classed('hidden', value === null)
-                    .text(d3.format('.4s')(value));
+                    .text(d3.format(self.controller.view.metric.format)(value));
             })
             .on('mouseout', () => {
                 self.controller.tooltip.classed('is-active', false);
@@ -117,7 +117,8 @@ class PathList extends ElementList {
             .cells(20)
             .orient('vertical')
             .scale(color)
-            .shapePadding(0);
+            .shapePadding(0)
+            .labelFormat(d3.format(metric.format));
 
         this.controller.legend
             .call(legendLinear);

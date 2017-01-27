@@ -109,7 +109,7 @@ class ComparisonTimeSeriesController extends Controller {
                 d3.svg.axis()
                     .scale(y)
                     .orient('left')
-                    .tickFormat(d3.format(".4s"))
+                    .tickFormat(d3.format(metric.format))
             );
 
         const line = d3.svg.line()
