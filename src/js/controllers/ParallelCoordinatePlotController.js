@@ -108,10 +108,11 @@ class PCP extends ElementList {
         this.x = d3.scale.ordinal()
             .domain(metrics.map(function(d) { order.push(d.id); return d.id; }))
             .rangeRoundPoints([100, 1820]); // 100 padding
-        this.y = {};
+        this.y = this.y || {};
 
         Object.keys(metrics).forEach((key) => {
             let metric = metrics[key];
+            let br = self.y[metric.id] ? self.y[metric.id].brush : undefined;
             self.y[metric.id] = Object.entries(metric.scaleArguments)
                 .map(([key, value]) => x => x[key](value))
                 .reduce((b, a) => (x) => b(a(x)), x => x)(
@@ -121,51 +122,9 @@ class PCP extends ElementList {
                 .domain([metric.minValue, metric.maxValue])
                 .range([1030, 50]); // 50 top, 50 bottom padding
 
+            self.y[metric.id].brush = br;
             scales.push({id: metric.id, metric: metric.metric, name: metric.name, format: metric.format});
         });
-
-        const axis = d3.svg.axis().orient("left");
-
-        let dims = this.container.selectAll(".dimension")
-            .data(scales, function(d) {
-                return d.id;
-            });
-
-        dims.exit().remove();
-
-        let dim = dims
-            .enter()
-            .append("g")
-            .attr("class", "dimension");
-
-        dims.append("g")
-            .attr("class", "axis")
-            .each(function(d) {
-                d3.select(this)
-                    .call(
-                        axis.scale(self.y[d.id])
-                            .tickFormat(d3.format(d.format))
-                    )
-            })
-            .append("text")
-            .style("text-anchor", "middle")
-            .attr("y", 12)
-            .text(function(d) { return d.name || "-"; });
-
-        dims.append("g")
-            .attr("class", "brush")
-            .each(function(d) {
-                d3.select(this)
-                    .call(self.y[d.id].brush = d3.svg.brush().y(self.y[d.id])
-                        .on("brushstart", self.brushstart)
-                        .on("brush", function() { self.brush(self) }));
-            })
-            .selectAll("rect")
-            .attr("x", -8)
-            .attr("width", 16);
-
-        dims
-            .attr("transform", function(d) { return "translate(" + self.x(d.id) + ")" });
 
         // Draw lines
         let lineFunction = d3.svg.line()
@@ -194,14 +153,73 @@ class PCP extends ElementList {
                 }
                 return lineFunction(result);
             })
-            .on('click', ([code,]) => {
+            .on('dblclick', ([code,]) => {
                 const view = this.controller.view;
                 view.app.show('comparisonView', {
                     country1: code
                 });
             });
 
-        this.dimensions = dim;
+        this.lines = elements;
+
+        // Select all dimensions
+        this.dimensions = this.container.selectAll(".dimension")
+            .data(scales, function(d) {
+                return d.id;
+            });
+
+        // On exit remove
+        this.dimensions.exit().remove();
+
+        // Enter function, add dimensions groups if this is a new metric
+        let dim = this.dimensions
+            .enter()
+            .append("g")
+            .attr("class", "dimension");
+
+
+        // Define base axis
+        const axis = d3.svg.axis().orient("left");
+
+        dim.append("g")
+            .attr("class", "axis")
+            .append("text")
+            .style("text-anchor", "middle")
+            .attr("y", 12)
+            .text(function(d) { return d.name || "-"; })
+            .on("click", function(d) { self.controller.view.removeMetric(d.id) });
+
+        dim.append("g")
+            .attr("class", "brush")
+            .each(function(d) {
+                d3.select(this)
+                    .call(self.y[d.id].brush = d3.svg.brush().y(self.y[d.id])
+                        .on("brushstart", self.brushstart)
+                        .on("brush", function() { self.brush(self) }));
+            })
+            .selectAll("rect")
+            .attr("x", -8)
+            .attr("width", 16);
+
+        this.container.selectAll(".axis")
+            .each(function(d) {
+                d3.select(this)
+                    .call(
+                        axis.scale(self.y[d.id])
+                            .tickFormat(d3.format(d.format))
+                    )
+            });
+
+        // this.container.selectAll(".brush")
+        //     .each(function(d) {
+        //         d3.select(this)
+        //             .call(self.y[d.id].brush = d3.svg.brush().y(self.y[d.id])
+        //                 .on("brushstart", self.brushstart)
+        //                 .on("brush", function() { self.brush(self) }));
+        //     });
+
+        this.dimensions
+            .attr("transform", function(d) { return "translate(" + self.x(d.id) + ")" });
     }
 
 
@@ -213,7 +231,7 @@ class PCP extends ElementList {
     brush(self) {
         let actives = self.dimensions.filter(function(d) { return !self.y[d.id].brush.empty(); }),
             extents = actives.map(function(d) { return d.map(function(k) { return self.y[k.__data__.id].brush.extent(); })});
-
+        
         self.lines.attr("class", function(d) {
             let result = actives.every(function(p, i) {
                 let length = p.length;

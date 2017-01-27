@@ -12,7 +12,7 @@ const View = require('../core/View');
 
 
 const DEFAULT_YEAR = 2015;
-const DEFAULT_METRICS = [];// ['SE.ADT.LITR.MA.ZS', 'NY.GDP.MKTP.CD', 'FP.CPI.TOTL.ZG'];
+const DEFAULT_METRICS = [{id: "FP.CPI.TOTL.ZG", name: "inflation"}, {id:"NY.GDP.PCAP.CD", name: "GDPPerCapita"}];//[{id: 'SE.ADT.LITR.MA.ZS'}, {id: 'NY.GDP.MKTP.CD'}, {id: 'FP.CPI.TOTL.ZG'}];
 const DEFAULT_METRIC = 'inflation';
 
 class CountriesView extends View {
@@ -65,8 +65,17 @@ class CountriesView extends View {
                 propertyValues[property] = properties[property].defaultValue;
             });
         }
-
         this.data.properties = Model.create(propertyValues);
+    }
+
+    removeMetric(metric) {
+        let result = [];
+        for (let key in this.data.metrics) {
+            if (this.data.metrics[key].id !== metric) {
+                result.push(this.data.metrics[key]);
+            }
+        }
+        this.data.metrics = result;
     }
 
     addSeries(self) {
@@ -93,6 +102,7 @@ class CountriesView extends View {
                 }
                 newmetrics.push({name: metricName, id: key});
                 self.data.metrics = newmetrics;
+                console.log(newmetrics);
             })
         } else {
             // Use active property
