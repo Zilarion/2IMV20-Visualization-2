@@ -124,49 +124,6 @@ class PCP extends ElementList {
             scales.push({id: metric.id, metric: metric.metric, name: metric.name, format: metric.format});
         });
 
-        const axis = d3.svg.axis().orient("left");
-
-        let dims = this.container.selectAll(".dimension")
-            .data(scales, function(d) {
-                return d.id;
-            });
-
-        dims.exit().remove();
-
-        let dim = dims
-            .enter()
-            .append("g")
-            .attr("class", "dimension");
-
-        dims.append("g")
-            .attr("class", "axis")
-            .each(function(d) {
-                d3.select(this)
-                    .call(
-                        axis.scale(self.y[d.id])
-                            .tickFormat(d3.format(d.format))
-                    )
-            })
-            .append("text")
-            .style("text-anchor", "middle")
-            .attr("y", 12)
-            .text(function(d) { return d.name || "-"; });
-
-        dims.append("g")
-            .attr("class", "brush")
-            .each(function(d) {
-                d3.select(this)
-                    .call(self.y[d.id].brush = d3.svg.brush().y(self.y[d.id])
-                        .on("brushstart", self.brushstart)
-                        .on("brush", function() { self.brush(self) }));
-            })
-            .selectAll("rect")
-            .attr("x", -8)
-            .attr("width", 16);
-
-        dims
-            .attr("transform", function(d) { return "translate(" + self.x(d.id) + ")" });
-
         // Draw lines
         let lineFunction = d3.svg.line()
             .x((d) => self.x(d.id))
@@ -201,7 +158,55 @@ class PCP extends ElementList {
                 });
             });
 
-        this.dimensions = dim;
+
+        // Draw axes
+        const axis = d3.svg.axis().orient("left");
+
+        let dims = this.container.selectAll(".dimension")
+            .data(scales, function(d) {
+                return d.id;
+            });
+
+        dims.exit().remove();
+
+        let dim = dims
+            .enter()
+            .append("g")
+            .attr("class", "dimension");
+
+        dim.append("g")
+            .attr("class", "axis")
+            .each(function(d) {
+                d3.select(this)
+                    .call(
+                        axis.scale(self.y[d.id])
+                            .tickFormat(d3.format(d.format))
+                    )
+            })
+            .append("text")
+            .style("text-anchor", "middle")
+            .attr("y", 12)
+            .text(function(d) { return d.name || "-"; })
+            .on("click", function(d) { self.controller.view.removeMetric(d.id) });
+
+        dim.append("g")
+            .attr("class", "brush")
+            .selectAll("rect")
+            .attr("x", -8)
+            .attr("width", 16);
+
+        this.container.selectAll(".brush")
+            .each(function(d) {
+                d3.select(this)
+                    .call(self.y[d.id].brush = d3.svg.brush().y(self.y[d.id])
+                        .on("brushstart", self.brushstart)
+                        .on("brush", function() { self.brush(self) }));
+            });
+
+        dims
+            .attr("transform", function(d) { return "translate(" + self.x(d.id) + ")" });
+
+        this.dimensions = dims;
     }
 
 
@@ -211,7 +216,7 @@ class PCP extends ElementList {
 
     // Handles a brush event, toggling the display of foreground lines.
     brush(self) {
-        let actives = self.dimensions.filter(function(d) { return !self.y[d.id].brush.empty(); }),
+        let actives = self.dimensions.filter(function(d) { console.log(d.id, self.y[d.id].brush); return !self.y[d.id].brush.empty(); }),
             extents = actives.map(function(d) { return d.map(function(k) { return self.y[k.__data__.id].brush.extent(); })});
 
         self.lines.attr("class", function(d) {

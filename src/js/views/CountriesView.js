@@ -69,6 +69,16 @@ class CountriesView extends View {
         this.data.properties = Model.create(propertyValues);
     }
 
+    removeMetric(metric) {
+        let result = [];
+        for (let key in this.data.metrics) {
+            if (this.data.metrics[key].id !== metric) {
+                result.push(this.data.metrics[key]);
+            }
+        }
+        this.data.metrics = result;
+    }
+
     addSeries(self) {
         let metricName = self.data.metric;
         let properties = self.data.properties;
