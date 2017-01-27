@@ -140,7 +140,10 @@ class CountryList extends ElementList {
 
         li.on('mouseout', ([countryCode,]) => {
             this.controller.view.worldMapController.container.select(`[data-country="${countryCode}"]`)
-                .classed('hovered', false);
+                .classed('hovered', false)
+                .each(function () {
+                    this.parentNode.appendChild(this);
+                });
         });
     }
 

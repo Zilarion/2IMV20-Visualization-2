@@ -38,6 +38,17 @@ metrics:
       format: '$0.2s'
       series:
         NY.GDP.PCAP.CD: {}
+    houseOwnership:
+      name: House ownership
+      maxValue: 1
+        scale: linear
+        scaleArguments: {}
+        format: '0.1%'
+        series:
+          SG.OWN.HSAJ.FE.ZS:
+            gender: female
+          SG.OWN.HSAJ.MA.ZS:
+            gender: male
 
   education:
     literacyRate:
@@ -60,6 +71,43 @@ metrics:
         SE.ADT.LITR.MA.ZS:
           gender: male
           age: adult
+    schoolEnrollment:
+      name: School enrollment
+      minValue: 0
+      maxValue: 1
+      scale: linear
+      scaleArguments: {}
+      format: '0.1%'
+      series:
+        SE.PRM.NENR.FE:
+          gender: female
+          school: primary
+        SE.PRM.NENR.MA:
+          gender: female
+          school: primary
+        SE.SEC.ENRR.FE:
+          gender: female
+          school: secondary
+        SE.SEC.ENRR.MA:
+          gender: male
+          school: secondary
+    schoolCompletion:
+      name: School completion
+      minValue: 0
+      maxValue: 1
+      scale: linear
+      scaleArguments: {}
+      format: '0.1%'
+      series:
+        SE.PRM.CMPL.FE.ZS:
+          school: primary
+          gender: female
+        SE.PRM.CMPL.MA.ZS:
+          school: primary
+          gender: male
+        SE.PRM.CMPL.ZS:
+          school: primary
+          gender: both
 
   health:
     lifeExpectancy:
@@ -76,6 +124,88 @@ metrics:
           gender: female
         SP.DYN.LE00.IN:
           gender: both
+    causeOfDeath:
+      name: Cause of death (%)
+      minValue: 0
+      maxValue: 1
+      scale: linear
+      scaleArguments: {}
+      format: '.0f'
+      series:
+        SH.DTH.COMM.1534.FE.ZS:
+          gender: female
+          ageRange: young
+          causeOfDeath: communicableDisease
+        SH.DTH.COMM.1534.MA.ZS:
+          gender: male
+          ageRange: young
+          causeOfDeath: communicableDisease
+        SH.DTH.COMM.3559.FE.ZS:
+          gender: female
+          ageRange: old
+          causeOfDeath: communicableDisease
+        SH.DTH.COMM.3559.MA.ZS:
+          gender: male
+          ageRange: old
+          causeOfDeath: communicableDisease
+        SH.DTH.INJR.1534.FE.ZS:
+          gender: female
+          ageRange: young
+          causeOfDeath: injury
+        SH.DTH.INJR.1534.MA.ZS:
+          gender: male
+          ageRange: young
+          causeOfDeath: injury
+        SH.DTH.INJR.3559.FE.ZS:
+          gender: female
+          ageRange: old
+          causeOfDeath: injury
+        SH.DTH.INJR.3559.MA.ZS:
+          gender: male
+          ageRange: old
+          causeOfDeath: injury
+        SH.DTH.NCOM.1534.FE.ZS:
+          gender: female
+          ageRange: young
+          causeOfDeath: nonCommunicableDisease
+        SH.DTH.NCOM.1534.MA.ZS:
+          gender: male
+          ageRange: young
+          causeOfDeath: nonCommunicableDisease
+        SH.DTH.NCOM.3559.FE.ZS:
+          gender: female
+          ageRange: old
+          causeOfDeath: nonCommunicableDisease
+        SH.DTH.NCOM.3559.MA.ZS:
+          gender: male
+          ageRange: old
+          causeOfDeath: nonCommunicableDisease
+    smoking:
+      name: Smoking
+        minValue: 0
+        maxValue: 1
+        scale: linear
+        scaleArguments: {}
+        format: '.0f'
+        series:
+          SH.PRV.SMOK.FE:
+            gender: female
+          SH.PRV.SMOK.MA:
+            gender: female
+    infantMortalityRate:
+      name: Infant mortality rate
+      minValue: 0
+      maxValue: 1
+      scale: linear
+      scaleArguments: {}
+      format: '.0f'
+      series:
+        SP.DYN.IMRT.IN:
+          gender: both
+        SP.DYN.IMRT.MA.IN:
+          gender: male
+        SP.DYN.LE00.FE.IN:
+          gender: female
 
 categories:
   economy:
@@ -95,6 +225,15 @@ properties:
       adult:
         name: Adult
 
+  ageRange:
+    name: Age range
+    defaultValue: old
+    values:
+      young:
+        name: 15-34
+      old:
+        name: 35-59
+
   gender:
     name: Gender
     defaultValue: both
@@ -105,3 +244,23 @@ properties:
         name: Female
       both:
         name: Both
+
+  school:
+    name: School
+    defaultValue: primary
+    values:
+      primary:
+        name: Primary
+      secondary:
+        name: Secondary
+
+  causeOfDeath:
+    name: Cause of death
+    defaultValue: communicableDiseases
+    value:
+      communicableDiseases:
+        name: Communicable diseases
+      injuries:
+        name: Injuries
+      nonCommunicableDiseases:
+        name: Non-communicable diseases
