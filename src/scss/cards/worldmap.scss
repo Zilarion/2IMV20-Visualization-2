@@ -30,6 +30,12 @@
       color: unquote("rgb(#{$color-primary})");
     }
   }
+
+  .legend text {
+    fill: unquote("rgb(#{$color-white})");
+    shape-rendering: crispEdges;
+    font-size: 20px;
+  }
 }
 
 .timeline {

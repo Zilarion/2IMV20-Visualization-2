@@ -101,6 +101,18 @@ class PathList extends ElementList {
 
                 return value !== null ? color(value) : '#FFFFFF';
             });
+
+        const legendLinear = d3.legend.color()
+            .title("Legend")
+            .shapeWidth(30)
+            .shapeHeight(25)
+            .cells(20)
+            .orient('vertical')
+            .scale(color)
+            .shapePadding(0);
+
+        this.controller.legend
+            .call(legendLinear);
     }
 
     getValue(countryCode) {
@@ -130,6 +142,11 @@ class WorldMapController extends Controller {
             this,
             this.container.select('svg')
         );
+
+        this.legend =this.container.select('svg')
+            .append('g')
+            .attr("class", "legend")
+            .attr("transform", "translate(20,20)");
     }
 
     update() {
