@@ -65,7 +65,7 @@ metrics:
     lifeExpectancy:
       name: Life expectancy at birth
       minValue: 0
-      maxValue: 1
+      maxValue: 100
       scale: linear
       scaleArguments: {}
       format: '.0f'

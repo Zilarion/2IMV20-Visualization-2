@@ -84,12 +84,15 @@ class ComparisonTimeSeriesController extends Controller {
         const width = 1920;
         const height = 1080;
 
-        const x = d3.scale
-            [metric.scale]()
+        const x = d3.scale.linear()
             .domain([1960, 2015])
             .range([padding, width - padding]);
-        const y = d3.scale
-            [metric.scale]()
+        const y = Object.entries(metric.scaleArguments)
+            .map(([key, value]) => x => x[key](value))
+            .reduce((b, a) => (x) => b(a(x)), x => x)(
+                d3.scale
+                [metric.scale]()
+            )
             .domain([metric.minValue, metric.maxValue])
             .range([height - padding, padding]);
 
