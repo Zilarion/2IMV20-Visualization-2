@@ -21,8 +21,8 @@ metrics:
         NY.GDP.MKTP.CD: {}
     GDPGrowth:
       name: GDP Growth
-      minValue: -70
-      maxValue: 190
+      minValue: -0.7
+      maxValue: 1.9
       scale: sqrt
       scaleArguments:
         exponent: 0.25
