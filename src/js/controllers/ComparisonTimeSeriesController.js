@@ -30,6 +30,43 @@ class ComparisonTimeSeriesController extends Controller {
         this.tooltip
             .append('span')
             .classed('country', true);
+
+        this.attachTooltip(this.country1Line, 'country1');
+        this.attachTooltip(this.country2Line, 'country2');
+
+        this.legend = this.svg
+            .append('g')
+            .classed('legend', true);
+
+        this.legendCountry1 = this.legend
+            .append('g')
+            .attr('transform', 'translate(0, 0)');
+
+        this.legendCountry1
+            .append('circle')
+            .attr('cx', 15)
+            .attr('cy', 15)
+            .attr('r', 15);
+
+        this.legendCountry1
+            .append('text')
+            .attr('x', 45)
+            .attr('y', 30);
+
+        this.legendCountry2 = this.legend
+            .append('g')
+            .attr('transform', 'translate(0, 45)');
+
+        this.legendCountry2
+            .append('circle')
+            .attr('cx', 15)
+            .attr('cy', 15)
+            .attr('r', 15);
+
+        this.legendCountry2
+            .append('text')
+            .attr('x', 45)
+            .attr('y', 30);
     }
 
     update() {
@@ -39,40 +76,62 @@ class ComparisonTimeSeriesController extends Controller {
             return;
         }
 
-        let padding = 50;
+        const padding = 50;
+        const width = 1920;
+        const height = 1080;
+
         const x = d3.scale
             [metric.scale]()
             .domain([1960, 2015])
-            .range([padding, 1920 - padding]);
+            .range([padding, width - padding]);
         const y = d3.scale
             [metric.scale]()
             .domain([metric.minValue, metric.maxValue])
-            .range([1080 - padding, padding]);
+            .range([height - padding, padding]);
 
         this.xAxis
-            .attr("transform", "translate(0," + (1080 - padding) + ")")
-            .call(d3.svg.axis()
-                .scale(x)
-                .orient("bottom"));
+            .attr('transform', `translate(0, ${height - padding})`)
+            .call(
+                d3.svg.axis()
+                    .scale(x)
+                    .orient('bottom')
+                    .ticks(12)
+                    .tickFormat(d3.format('d'))
+            );
 
         this.yAxis
-            .attr("transform", "translate(" + padding + ", 0)")
-            .call(d3.svg.axis()
-                .scale(y)
-                .orient("left"));
+            .attr('transform', `translate(${padding}, 0)`)
+            .call(
+                d3.svg.axis()
+                    .scale(y)
+                    .orient('left')
+                    .ticks(15)
+                    .tickFormat(d3.format(".4s"))
+            );
 
         const line = d3.svg.line()
             .interpolate('basis')
             .x(([year,]) => x(parseInt(year)))
             .y(([,value]) => y(value));
 
+        const country1 = this.view.countries.get(this.data.country1.code);
+        const country2 = this.view.countries.get(this.data.country2.code);
+
         this.country1Line
             .attr('d', line(this.country1Values.asKeyValueArray().filter(([,value]) => value !== null)));
         this.country2Line
             .attr('d', line(this.country2Values.asKeyValueArray().filter(([,value]) => value !== null)));
 
-        this.attachTooltip(this.country1Line, 'country1');
-        this.attachTooltip(this.country2Line, 'country2');
+        this.legend
+            .attr('transform', `translate(${width - padding - 400}, ${padding})`);
+
+        this.legendCountry1
+            .select('text')
+            .text(country1 ? country1.name : '');
+
+        this.legendCountry2
+            .select('text')
+            .text(country2 ? country2.name : '');
     }
 
     attachTooltip(element, d) {

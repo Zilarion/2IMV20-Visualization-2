@@ -34,24 +34,35 @@ svg.timeSeries {
 
   .timeSeries__axis {
     text {
-      fill: white;
+      fill: unquote("rgb(#{$color-white})");
       stroke: none;
     }
 
     line, path {
       fill: none;
-      stroke: white;
+      stroke: unquote("rgb(#{$color-white})");
       stroke-width: 1;
     }
   }
 
   .legend {
-    fill: none;
-    stroke: white;
-  }
-  .legend text {
-    font-size: 20px;
-    stroke: none;
-    fill: white;
+    g {
+      &:nth-child(1) {
+        circle {
+          fill: unquote("rgb(#{$color-primary})");
+        }
+      }
+
+      &:nth-child(2) {
+        circle {
+          fill: unquote("rgb(#{$color-secondary})");
+        }
+      }
+
+      text {
+        font-size: 30px;
+        fill: unquote("rgb(#{$color-white})");;
+      }
+    }
   }
 }
