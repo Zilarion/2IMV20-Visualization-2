@@ -76,3 +76,13 @@
     margin-left: -8px;
   }
 }
+
+#highLow {
+  & > div.mdl-cell {
+    padding: 1.5em;
+  }
+
+  .material-icons {
+    font-size: 1em;
+  }
+}

@@ -10,33 +10,37 @@
     margin-top: 16px;
   }
 
-  ul {
-    width: 100%;
+  li.toplist__position {
+    padding: 0 8px;
 
-    li {
+    ul {
       width: 100%;
 
-      .toplist__value.mdl-list__item-sub-title {
-        display: flex;
-        max-width: 300px;
+      li {
+        width: 100%;
 
-        .toplist__number {
-          display: block;
-          flex-basis: 50px;
-          text-align: right;
-        }
+        .toplist__value.mdl-list__item-sub-title {
+          display: flex;
+          max-width: 300px;
 
-        .toplist__meter {
-          margin-left: .5em;
-          display: block;
-          flex-grow: 3;
-
-          span {
-            height: 14px;
-            padding-top: 4px;
-            width: 100%;
+          .toplist__number {
             display: block;
-            background-color: unquote("rgb(#{$color-primary})");
+            flex-basis: 50px;
+            text-align: right;
+          }
+
+          .toplist__meter {
+            margin-left: .5em;
+            display: block;
+            flex-grow: 3;
+
+            span {
+              height: 14px;
+              margin-top: 2px;
+              width: 100%;
+              display: block;
+              background-color: unquote("rgb(#{$color-primary})");
+            }
           }
         }
       }
