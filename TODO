@@ -11,12 +11,8 @@ DATA:
  - format meegeven
 
 COUNTRY COMPARISON
- - y as labels
- - countries soms niet getoond [RIK]
- - bars zijn altijd hetzelfde [RIK]
  - kleuren [RUUD]
  - legenda bolletje naar lijn [RUUD]
- - aanpassen select werkt niet [RIK]
 
 COUNTRIES
  - similarity graph [RIK]

@@ -74,7 +74,7 @@ class CountrySelectionController extends Controller {
             .classed('mdl-selectfield__select', true)
             .attr('id', 'countrySelectionCountry2')
             .on('change', function () {
-                self.data.country1.code = this.value;
+                self.data.country2.code = this.value;
             });
 
         this.country2Select

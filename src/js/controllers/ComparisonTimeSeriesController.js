@@ -105,7 +105,6 @@ class ComparisonTimeSeriesController extends Controller {
                 d3.svg.axis()
                     .scale(y)
                     .orient('left')
-                    .ticks(15)
                     .tickFormat(d3.format(".4s"))
             );
 

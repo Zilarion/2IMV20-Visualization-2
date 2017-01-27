@@ -127,7 +127,7 @@ class ValueList extends ElementList {
         elements
             .select('.metric__country2__bar span')
             .style('width', function ([id,]) {
-                return percentage(d3.select(this.parentNode.parentNode.parentNode.parentNode).data()[0], self.controller.country1Values.get(id, null));
+                return percentage(d3.select(this.parentNode.parentNode.parentNode.parentNode).data()[0], self.controller.country2Values.get(id, null));
             });
     }
 }
