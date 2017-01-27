@@ -1,17 +1,15 @@
 WORLDMAP
- - doorlinken [RIK]
- - high/low in world map [RIK]
- - hoveren high-low tonen in worldmap [RIK]
+ - hoveren high-low tonen in worldmap (done, werkt nog niet helemaal lekker) [RIK]
  - proper use of scales in legend [Ruud]
 
 DATA:
- - inflation schaal
+ - scale aanpassing doorvoeren [RIK]
  - meer data
- - format meegeven
 
 COUNTRY COMPARISON
  - expected number error [RIK]
  - properties tonen ipv id
+ - select blijft hangen door herladen material ding [RIK]
 
 COUNTRIES
  - similarity graph [RIK]
