@@ -1,8 +1,8 @@
 WORLDMAP
  - doorlinken [RIK]
- - axis [RUUD]
  - high/low in world map [RIK]
  - hoveren high-low tonen in worldmap [RIK]
+ - proper use of scales in legend [Ruud]
 
 DATA:
  - inflation schaal
@@ -10,13 +10,10 @@ DATA:
  - format meegeven
 
 COUNTRY COMPARISON
- - kleuren [RUUD]
- - legenda bolletje naar lijn [RUUD]
  - expected number error [RIK]
  - properties tonen ipv id
 
 COUNTRIES
  - similarity graph [RIK]
  - add/remove [RUUD]
- - styling [RUUD]
  - doorklikken [RIK]
