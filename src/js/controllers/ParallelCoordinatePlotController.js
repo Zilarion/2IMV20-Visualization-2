@@ -44,6 +44,9 @@ class PCP extends ElementList {
             .append("path")
             .attr("class", "countryLine foreground")
             .on('mousemove', function (country) {
+                if(this.getAttribute('class') === "countryLine background"){
+                    return;
+                }
                 d3.select(this)
                     .each(function () {
                         this.parentNode.appendChild(this);

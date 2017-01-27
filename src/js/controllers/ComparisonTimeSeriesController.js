@@ -43,10 +43,12 @@ class ComparisonTimeSeriesController extends Controller {
             .attr('transform', 'translate(0, 0)');
 
         this.legendCountry1
-            .append('circle')
-            .attr('cx', 15)
-            .attr('cy', 15)
-            .attr('r', 15);
+            .append('line')
+            .attr('stroke-width', 5)
+            .attr('x1', 0)
+            .attr('y1', 15)
+            .attr('x2', 35)
+            .attr('y2', 15);
 
         this.legendCountry1
             .append('text')
@@ -58,10 +60,12 @@ class ComparisonTimeSeriesController extends Controller {
             .attr('transform', 'translate(0, 45)');
 
         this.legendCountry2
-            .append('circle')
-            .attr('cx', 15)
-            .attr('cy', 15)
-            .attr('r', 15);
+            .append('line')
+            .attr('stroke-width', 5)
+            .attr('x1', 0)
+            .attr('y1', 15)
+            .attr('x2', 35)
+            .attr('y2', 15);
 
         this.legendCountry2
             .append('text')

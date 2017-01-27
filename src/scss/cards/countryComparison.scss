@@ -35,12 +35,12 @@
 
     .metric__country1__bar span {
       float: right;
-      background-color: unquote("rgb(#{$color-primary})");
+      background-color: #{$divergent-primary};
     }
 
     .metric__country2__bar span {
       float: left;
-      background-color: unquote("rgb(#{$color-secondary})");
+      background-color: #{$divergent-secondary};
     }
 
     .metric__country1__bar, .metric__country2__bar {
