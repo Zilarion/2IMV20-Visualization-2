@@ -4,6 +4,14 @@
 
   .mdl-selectfield {
     margin: 0 3em;
+
+    &:nth-child(1) .mdl-selectfield__label {
+      color: #{$divergent-primary};
+    }
+
+    &:nth-child(2) .mdl-selectfield__label {
+      color: #{$divergent-secondary};
+    }
   }
 }
 

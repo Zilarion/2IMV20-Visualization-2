@@ -63,7 +63,7 @@ class CountrySelectionController extends Controller {
             this.country1Select.select('select')
         );
 
-        new MaterialSelectfield(this.country1Select[0][0]);
+        this.field1 = new MaterialSelectfield(this.country1Select[0][0]);
 
         this.country2Select = this.container
             .append('div')
@@ -88,7 +88,7 @@ class CountrySelectionController extends Controller {
             this.country2Select.select('select')
         );
 
-        new MaterialSelectfield(this.country2Select[0][0]);
+        this.field2 = new MaterialSelectfield(this.country2Select[0][0]);
     }
 
     update() {
@@ -96,6 +96,9 @@ class CountrySelectionController extends Controller {
         this.country1Select.select('select').property('value', this.data.country1.code);
         this.country2OptionList.update();
         this.country2Select.select('select').property('value', this.data.country2.code);
+
+        this.field1.refreshOptions();
+        this.field2.refreshOptions();
     }
 }
 
