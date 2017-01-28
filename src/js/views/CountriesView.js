@@ -82,11 +82,8 @@ class CountriesView extends View {
         let metricName = self.data.metric;
         let properties = self.data.properties;
         let keys = properties.ownKeys();
-        // console.log(metric, properties.ownKeys());
 
         let metric = self.metrics.models[metricName];
-
-        // console.log(metric);
 
         if(keys.length === 0) {
             // Use first series, no properties for this metric
@@ -102,10 +99,33 @@ class CountriesView extends View {
                 }
                 newmetrics.push({name: metricName, id: key});
                 self.data.metrics = newmetrics;
-                console.log(newmetrics);
             })
         } else {
+            let newmetrics = self.data.metrics;
+
             // Use active property
+            let series = metric.series;
+            let propertyValues = {};
+            for (let k2 in self.metric.properties) {
+                propertyValues[k2] = properties.get(k2);
+            }
+
+            for (let key in series) {
+                let serieProperties = series[key];
+
+                let result = true;
+                for (let k1 in propertyValues) {
+                        let v1 = propertyValues[k1];
+                        let v2 = serieProperties[k1];
+                        if (v1 !== v2) {
+                            result = false;
+                        }
+                }
+                if (result) {
+                    newmetrics.push({name: metricName, id: key});
+                    self.data.metrics = newmetrics;
+                }
+            }
         }
     }
 }

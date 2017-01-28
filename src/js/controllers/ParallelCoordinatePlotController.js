@@ -210,14 +210,6 @@ class PCP extends ElementList {
                     )
             });
 
-        // this.container.selectAll(".brush")
-        //     .each(function(d) {
-        //         d3.select(this)
-        //             .call(self.y[d.id].brush = d3.svg.brush().y(self.y[d.id])
-        //                 .on("brushstart", self.brushstart)
-        //                 .on("brush", function() { self.brush(self) }));
-        //     });
-
         this.dimensions
             .attr("transform", function(d) { return "translate(" + self.x(d.id) + ")" });
     }
@@ -231,7 +223,7 @@ class PCP extends ElementList {
     brush(self) {
         let actives = self.dimensions.filter(function(d) { return !self.y[d.id].brush.empty(); }),
             extents = actives.map(function(d) { return d.map(function(k) { return self.y[k.__data__.id].brush.extent(); })});
-        
+
         self.lines.attr("class", function(d) {
             let result = actives.every(function(p, i) {
                 let length = p.length;
