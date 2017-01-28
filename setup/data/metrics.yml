@@ -40,15 +40,16 @@ metrics:
         NY.GDP.PCAP.CD: {}
     houseOwnership:
       name: House ownership
+      minValue: 0
       maxValue: 1
-        scale: linear
-        scaleArguments: {}
-        format: '0.1%'
-        series:
-          SG.OWN.HSAJ.FE.ZS:
-            gender: female
-          SG.OWN.HSAJ.MA.ZS:
-            gender: male
+      scale: linear
+      scaleArguments: {}
+      format: '0.1%'
+      series:
+        SG.OWN.HSAJ.FE.ZS:
+          gender: female
+        SG.OWN.HSAJ.MA.ZS:
+          gender: male
 
   education:
     literacyRate:
@@ -130,7 +131,7 @@ metrics:
       maxValue: 1
       scale: linear
       scaleArguments: {}
-      format: '.0f'
+      format: '0.1%'
       series:
         SH.DTH.COMM.1534.FE.ZS:
           gender: female
@@ -182,30 +183,69 @@ metrics:
           causeOfDeath: nonCommunicableDisease
     smoking:
       name: Smoking
-        minValue: 0
-        maxValue: 1
-        scale: linear
-        scaleArguments: {}
-        format: '.0f'
-        series:
-          SH.PRV.SMOK.FE:
-            gender: female
-          SH.PRV.SMOK.MA:
-            gender: female
+      minValue: 0
+      maxValue: 1
+      scale: linear
+      scaleArguments: {}
+      format: '0.1%'
+      series:
+        SH.PRV.SMOK.FE:
+          gender: female
+        SH.PRV.SMOK.MA:
+          gender: male
     infantMortalityRate:
       name: Infant mortality rate
       minValue: 0
       maxValue: 1
       scale: linear
       scaleArguments: {}
-      format: '.0f'
+      format: '0.1%'
       series:
         SP.DYN.IMRT.IN:
           gender: both
         SP.DYN.IMRT.MA.IN:
           gender: male
-        SP.DYN.LE00.FE.IN:
+        SP.DYN.IMRT.FE.IN:
           gender: female
+    unhealthyWeight:
+      name: Unhealthy weight (children under 5)
+      minValue: 0
+      maxValue: 1
+      scale: linear
+      scaleArguments: {}
+      format: '0.1%'
+      series:
+        SH.STA.MALN.FE.ZS:
+          unhealthyWeightType: underweight
+          gender: female
+        SH.STA.MALN.MA.ZS:
+          unhealthyWeightType: underweight
+          gender: female
+        SH.STA.MALN.ZS:
+          unhealthyWeightType: underweight
+          gender: female
+        SH.STA.OWGH.FE.ZS:
+          unhealthyWeightType: overweight
+          gender: male
+        SH.STA.OWGH.MA.ZS:
+          unhealthyWeightType: overweight
+          gender: male
+        SH.STA.OWGH.ZS:
+          unhealthyWeightType: overweight
+          gender: male
+  other:
+    marriageAge:
+      name: Mean age at first marriage
+      minValue: 0
+      maxValue: 100
+      scale: linear
+      scaleArguments: {}
+      format: '.0f'
+      series:
+        SP.DYN.SMAM.FE:
+          gender: female
+        SP.DYN.SMAM.MA:
+          gender: male
 
 categories:
   economy:
@@ -214,6 +254,8 @@ categories:
     name: Education
   health:
     name: Health
+  other:
+    name: Other
 
 properties:
   age:
@@ -257,10 +299,19 @@ properties:
   causeOfDeath:
     name: Cause of death
     defaultValue: communicableDiseases
-    value:
+    values:
       communicableDiseases:
         name: Communicable diseases
       injuries:
         name: Injuries
       nonCommunicableDiseases:
         name: Non-communicable diseases
+
+  unhealthyWeightType:
+    name: Type
+    defaultValue: underweight
+    values:
+      underweight:
+        name: Underweight
+      overweight:
+        name: Overweight

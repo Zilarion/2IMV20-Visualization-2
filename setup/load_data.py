@@ -103,6 +103,7 @@ def insertTimeSeries():
 
     categories = getMetricData()['metrics']
     metrics = {id: (key, properties) for category, metrics in categories.items() for key, metric in metrics.items() for id, properties in metric['series'].items()}
+    metricFormats = {key: metric['format'] for category, metrics in categories.items() for key, metric in metrics.items()}
 
     for row in getTimeseriesData():
         countryCode = row['Country Code']
@@ -113,7 +114,7 @@ def insertTimeSeries():
                 continue
             metric, properties = metrics[indicatorCode]
 
-            valueDivider = 100.0 if metric in ['inflation', 'GDPGrowth', 'literacyRate'] else 1.0
+            valueDivider = 100.0 if metricFormats[metric] == '0.1%' else 1.0
 
             doc = {
                 'id': indicatorCode,
