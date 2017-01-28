@@ -20,11 +20,10 @@ class PCP extends ElementList {
 
         let activeMetrics = this.controller.data.get("metrics");
 
-        let metrics = [];
+        let metrics = {};
         for (let metricId in activeMetrics) {
             let metric = this.controller.view.metrics.get(activeMetrics[metricId].name);
-            metric.id = activeMetrics[metricId].id;
-            metrics.push(metric);
+            metrics[activeMetrics[metricId].id] = metric;
         }
         return metrics;
     }
@@ -95,9 +94,9 @@ class PCP extends ElementList {
 
         const self = this;
         // Update axes
-        let metrics = this.metrics;
+        let metrics = Object.entries(this.metrics);
 
-        if (!metrics || metrics.length == 0) {
+        if (!metrics || Object.keys(metrics).length == 0) {
             return;
         }
 
@@ -106,14 +105,13 @@ class PCP extends ElementList {
         let order = [];
 
         this.x = d3.scale.ordinal()
-            .domain(metrics.map(function(d) { order.push(d.id); return d.id; }))
+            .domain(metrics.map(function([id,]) { order.push(id); return id; }))
             .rangeRoundPoints([100, 1820]); // 100 padding
         this.y = this.y || {};
 
-        Object.keys(metrics).forEach((key) => {
-            let metric = metrics[key];
-            let br = self.y[metric.id] ? self.y[metric.id].brush : undefined;
-            self.y[metric.id] = Object.entries(metric.scaleArguments)
+        metrics.forEach(([id, metric]) => {
+            let br = self.y[id] ? self.y[id].brush : undefined;
+            self.y[id] = Object.entries(metric.scaleArguments)
                 .map(([key, value]) => x => x[key](value))
                 .reduce((b, a) => (x) => b(a(x)), x => x)(
                     d3.scale
@@ -122,8 +120,8 @@ class PCP extends ElementList {
                 .domain([metric.minValue, metric.maxValue])
                 .range([1030, 50]); // 50 top, 50 bottom padding
 
-            self.y[metric.id].brush = br;
-            scales.push({id: metric.id, metric: metric.metric, name: metric.name, format: metric.format});
+            self.y[id].brush = br;
+            scales.push({id: id, metric: metric.metric, name: metric.name, format: metric.format});
         });
 
         // Draw lines
