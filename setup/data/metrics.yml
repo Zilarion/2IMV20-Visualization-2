@@ -86,10 +86,10 @@ metrics:
         SE.PRM.NENR.MA:
           gender: female
           school: primary
-        SE.SEC.ENRR.FE:
+        SE.SEC.NENR.FE:
           gender: female
           school: secondary
-        SE.SEC.ENRR.MA:
+        SE.SEC.NENR.MA:
           gender: male
           school: secondary
     schoolCompletion:
