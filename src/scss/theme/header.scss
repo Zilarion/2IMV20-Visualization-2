@@ -1,0 +1,21 @@
+.mdl-layout__header .mdl-navigation {
+ .mdl-navigation__link {
+   position: relative;
+
+    &::after {
+     height: $layout-tab-highlight-thickness;
+     width: 0%;
+     display: block;
+     content: " ";
+     bottom: 0;
+     left: 0;
+     position: absolute;
+     background: $layout-header-tab-highlight;
+   }
+
+   &.mdl-navigation__link--current::after {
+     width: 100%;
+     transition: width .4s cubic-bezier(0.4, 0.0, 1, 1);
+   }
+ }
+}

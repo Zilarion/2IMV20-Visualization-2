@@ -28,7 +28,6 @@ class LinkList extends ElementList {
             .on('click', ([viewName,]) => {
                 d3.event.preventDefault();
                 this.controller.view.show(viewName, {});
-                d3.select('.mdl-layout')[0][0].MaterialLayout.toggleDrawer();
             });
 
         a
@@ -57,7 +56,7 @@ class NavigationController extends Controller {
     init() {
         this.linkList = new LinkList(
             this,
-            this.container.select('nav')
+            this.container
         );
     }
 

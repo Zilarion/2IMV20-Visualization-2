@@ -25,7 +25,7 @@ class App {
 
         this.navigationSettings = Model.create({view: DEFAULT_VIEW});
         
-        new NavigationController(this, d3.select('.mdl-layout__drawer'), {data: this.navigationSettings});
+        new NavigationController(this, d3.select('.mdl-layout__header .mdl-navigation'), {data: this.navigationSettings});
 
         this.setupRouter();
 
