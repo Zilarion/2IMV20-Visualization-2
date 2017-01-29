@@ -20,7 +20,7 @@ class FieldList extends ElementList {
         };
 
         const metric = this.controller.view.metric;
-        const properties = this.controller.data.properties
+        const properties = this.controller.data.properties;
 
         const propertyFields = Reflect.ownKeys(properties)
             .filter(property => property in metric.properties)
@@ -83,7 +83,7 @@ class FieldList extends ElementList {
             .attr('for', getFieldId);
 
         fields.each(function() {
-            new MaterialSelectfield(this);
+            this.mdlSelect = new MaterialSelectfield(this);
         });
     }
 
@@ -100,6 +100,11 @@ class FieldList extends ElementList {
         elements
             .select('label')
             .text(({name}) => name);
+
+        elements
+            .each(function () {
+                this.mdlSelect.update_();
+            })
     }
 }
 
