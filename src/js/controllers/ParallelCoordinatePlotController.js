@@ -82,6 +82,12 @@ class PCP extends ElementList {
             })
             .on('mouseout', () => {
                 self.controller.tooltip.classed('is-active', false);
+            })
+            .on('click', ({code}) => {
+                const view = this.controller.view;
+                view.app.show('comparisonView', {
+                    country1: code
+                });
             });
     }
 
