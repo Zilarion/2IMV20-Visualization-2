@@ -115,6 +115,8 @@ def insertTimeSeries():
             metric, properties = metrics[indicatorCode]
 
             valueDivider = 100.0 if metricFormats[metric] == '0.1%' else 1.0
+            if metric == 'infantMortalityRate':
+                valueDivider = 1000.0
 
             doc = {
                 'id': indicatorCode,

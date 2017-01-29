@@ -84,7 +84,7 @@ metrics:
           gender: female
           school: primary
         SE.PRM.NENR.MA:
-          gender: female
+          gender: male
           school: primary
         SE.SEC.NENR.FE:
           gender: female
@@ -196,7 +196,7 @@ metrics:
     infantMortalityRate:
       name: Infant mortality rate
       minValue: 0
-      maxValue: 1
+      maxValue: .25
       scale: linear
       scaleArguments: {}
       format: '0.1%'
