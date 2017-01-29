@@ -1,17 +1,7 @@
-WORLDMAP
- - hoveren high-low tonen in worldmap (nog te verbeteren) [RIK]
- - proper use of scales in legend [Ruud]
-
-DATA:
- - meer data
-
 COUNTRY COMPARISON
  - expected number error [RIK]
- - properties tonen ipv id
- - errors pcp filter switchen fixen
+ - properties tonen ipv id [RIK]
 
 COUNTRIES
- - similarity graph [RIK]
- - add with properties/remove [RUUD]
  - doorklikken [RIK]
  - timeline

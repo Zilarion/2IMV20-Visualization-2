@@ -62,10 +62,10 @@ metrics:
       series:
         SE.ADT.1524.LT.FE.ZS:
           gender: female
-          age: youth
+          age: young
         SE.ADT.1524.LT.MA.ZS:
           gender: male
-          age: youth
+          age: young
         SE.ADT.LITR.FE.ZS:
           gender: female
           age: adult
@@ -136,51 +136,51 @@ metrics:
         SH.DTH.COMM.1534.FE.ZS:
           gender: female
           ageRange: young
-          causeOfDeath: communicableDisease
+          causeOfDeath: communicableDiseases
         SH.DTH.COMM.1534.MA.ZS:
           gender: male
           ageRange: young
-          causeOfDeath: communicableDisease
+          causeOfDeath: communicableDiseases
         SH.DTH.COMM.3559.FE.ZS:
           gender: female
           ageRange: old
-          causeOfDeath: communicableDisease
+          causeOfDeath: communicableDiseases
         SH.DTH.COMM.3559.MA.ZS:
           gender: male
           ageRange: old
-          causeOfDeath: communicableDisease
+          causeOfDeath: communicableDiseases
         SH.DTH.INJR.1534.FE.ZS:
           gender: female
           ageRange: young
-          causeOfDeath: injury
+          causeOfDeath: injuries
         SH.DTH.INJR.1534.MA.ZS:
           gender: male
           ageRange: young
-          causeOfDeath: injury
+          causeOfDeath: injuries
         SH.DTH.INJR.3559.FE.ZS:
           gender: female
           ageRange: old
-          causeOfDeath: injury
+          causeOfDeath: injuries
         SH.DTH.INJR.3559.MA.ZS:
           gender: male
           ageRange: old
-          causeOfDeath: injury
+          causeOfDeath: injuries
         SH.DTH.NCOM.1534.FE.ZS:
           gender: female
           ageRange: young
-          causeOfDeath: nonCommunicableDisease
+          causeOfDeath: nonCommunicableDiseases
         SH.DTH.NCOM.1534.MA.ZS:
           gender: male
           ageRange: young
-          causeOfDeath: nonCommunicableDisease
+          causeOfDeath: nonCommunicableDiseases
         SH.DTH.NCOM.3559.FE.ZS:
           gender: female
           ageRange: old
-          causeOfDeath: nonCommunicableDisease
+          causeOfDeath: nonCommunicableDiseases
         SH.DTH.NCOM.3559.MA.ZS:
           gender: male
           ageRange: old
-          causeOfDeath: nonCommunicableDisease
+          causeOfDeath: nonCommunicableDiseases
     smoking:
       name: Smoking
       minValue: 0

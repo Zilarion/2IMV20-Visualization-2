@@ -58,6 +58,8 @@ class ValueList extends ElementList {
     }
 
     enter(elements) {
+        const self = this;
+
         const value = elements
             .append('div')
             .classed('metric__value', true);
@@ -74,7 +76,13 @@ class ValueList extends ElementList {
         value
             .append('div')
             .classed('metric__value-label', true)
-            .text(([id,]) => id);
+            .text(function ([, propertyValues]) {
+                const metric = d3.select(this.parentNode.parentNode.parentNode).data()[0];
+
+                return Object.entries(propertyValues).map(([property, value]) => {
+                    return metric.properties[property].values[value].name;
+                }).join(', ');
+            });
 
         value
             .append('div')
