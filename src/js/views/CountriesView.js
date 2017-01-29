@@ -7,6 +7,8 @@ const ButtonController = require('../controllers/ButtonController');
 const FilterController = require('../controllers/FilterController');
 const Model = require('../core/Model');
 const d3 = require('d3');
+const TimeLineController = require('../controllers/TimeLineController');
+
 
 const View = require('../core/View');
 
@@ -51,6 +53,8 @@ class CountriesView extends View {
 
         this.pcpController = new ParallelCoordinatePlotController(this, d3.select('#pcp'),  {data: this.data, countries: this.countries, values: this.values});
         new CountryDistanceController(this, d3.select('#countryDistance'));
+
+        new TimeLineController(this, this.container.select('.timeline'), {data: this.data});
     }
 
     setMetric(metric) {
